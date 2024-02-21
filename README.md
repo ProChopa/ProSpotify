@@ -2,7 +2,7 @@
 Theme for [Spicetify](https://github.com/spicetify/spicetify-cli) based on [DefaultDynamic](https://github.com/JulienMaille/spicetify-dynamic-theme) and [Hazy](https://github.com/Astromations/Hazy) with Auto-Update
 
 # Preview
-![Preview)](https://github.com/ProChopa/ProSpotify/assets/112766478/d30893bf-24ef-4501-80e9-71909f786795)
+![Preview](https://prochopa.github.io/ProSpotify/ProSpotify.png)
 
 # Install / Update
 1. Download Release
