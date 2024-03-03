@@ -159,7 +159,8 @@ div#context-menu:before,
 }
 .NbcaczStd8vD2rHWwaKv {
   /*background: transparent;*/
-  backdrop-filter: blur(15px);
+  filter: blur(15px);
+  opacity: 0.17;
 }
 .x-filterBox-filterInput {
   height: 36px
