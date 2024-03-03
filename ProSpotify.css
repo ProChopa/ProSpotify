@@ -5,12 +5,10 @@
     --system_is_dark: 1;
     --warning_message: "You haven't installed 'ProSpotify.js' extension.";
 }
-
 div.ReactModalPortal:last-of-type::before {
     font-size: 30px;
     content: var(--warning_message);
 }
-
 @media (prefers-color-scheme: light) {
     :root {
         --system_is_dark: 0;
@@ -18,7 +16,6 @@ div.ReactModalPortal:last-of-type::before {
 }
 
 /* transparent window controls */
-
 html:not(.spotify__container--is-desktop.fullscreen) body.windows:not(.video-full-window)::after {
   content: '';
   position: absolute;
@@ -36,39 +33,31 @@ html:not(.spotify__container--is-desktop.fullscreen) body.windows:not(.video-ful
  .main-yourLibraryX-entryPoints, .playlist-playlist-playlistContent {
      background-color: transparent !important
  }
-
  .main-yourLibraryX-header .main-yourLibraryX-collapseButtonWrapper {
    color: var(--spice-subtext);
  }
-
  .BoxComponent-group-tinted-isInteractive-hasLeadingOrMedia-paddingBlockStart_8px-paddingBlockEnd_8px-minBlockSize_56px-padding_8px {
      background-color: var(--background-tinted-base,rgba(0,0,0,0.08));
  }
-
  .BoxComponent-group-tinted-isInteractive-hasLeadingOrMedia-paddingBlockStart_8px-paddingBlockEnd_8px-minBlockSize_56px-padding_8px:hover {
      background-color: var(--background-tinted-base,rgba(0,0,0,0.08));
  }
-
  .main-navBar-navBarLinkActive,
  .main-collectionLinkButton-selected {
    border-radius: 0px !important;
  }
-
  .main-yourLibraryX-libraryContainer {
    --background-highlight: rgba(255,255,255,0.05) !important;
    --background-press: rgba(255,255,255,0.05);
  }
-
  .main-rootlist-wrapper {
    --spice-rgb-shadow: !important;
  }
-
  .main-yourLibraryX-isScrolled {
    -webkit-box-shadow: 0 8px 6px rgba(0, 0, 0, 0.3);
    box-shadow: 0 8px 6px rgba(0, 0, 0, 0.3);
    transition: box-shadow 0.1s ease;
  }
-
  .main-yourLibraryX-listRowEntityImage {
    box-shadow: -2px 4px 6px 2px rgb(0 0 0 / 14%);;
  }
@@ -81,11 +70,9 @@ input {
     padding: 6px 10px 6px 48px;
     color: var(--spice-text) !important;
 }
-
 input::placeholder {
     color: var(--spice-subtext) !important;
 }
-
 input:focus {
     box-shadow: none !important;
 }
@@ -98,21 +85,18 @@ h1,
 .TypeElement-canon-textBase-type {
     color: var(--spice-subtext) !important;
 }
-
 .x-searchInput-searchInputSearchIcon,
 .x-searchInput-searchInputClearButton {
     color: var(--spice-text) !important;
 }
 
-/* remove Topbar background colour */
+/* remove topbar background colour */
 .Root__top-bar {
     z-index: 1;
 }
-
 .main-topBar-overlay {
     background-color: var(--spice-main);
 }
-
 .nav-ylx .main-trackList-trackListHeaderStuck.main-trackList-trackListHeader,
 .main-trackList-trackListHeader.main-trackList-trackListHeaderStuck {
   background: transparent;
@@ -145,7 +129,6 @@ h1,
 div#context-menu:before,
 .main-contextMenu-menu:before {
   content: '';
-  background-image: var(--image_url);
   z-index: -1;
   position: absolute;
   top: 0;
@@ -155,35 +138,40 @@ div#context-menu:before,
   border-radius: 1px !important;
   backdrop-filter: blur(15px) ;
 }
-
 .main-contextMenu-menu {
   border-radius: 1px;
   padding: 1px
 }
-
 .main-contextMenu-menu::-webkit-scrollbar-thumb {
   border-radius: 1px;
 }
-
 .main-contextMenu-menu::-webkit-scrollbar {
   width: 4px !important;
   transition: width 0.0s ease;
 }
-
 .main-contextMenu-menuItemButton {
     border-radius: 1px;
 }
-
 .main-contextMenu-menu,
 .main-contextMenu-tippy,
 .aCtCKL9BxAoHeVZS0uRs {
-  background-color: transparent !important;
+  background: transparent !important;
 }
-
+.NbcaczStd8vD2rHWwaKv {
+    -webkit-app-region: no-drag;
+    background: transparent !important;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 16px 24px rgba(0,0,0,.3), 0 6px 8px rgba(0,0,0,.2);
+    box-shadow: 0 16px 24px rgba(0,0,0,.3), 0 6px 8px rgba(0,0,0,.2);
+    max-height: calc(100vh - 24px);
+    max-width: 350px;
+    min-width: 160px;
+    overflow-y: auto;
+    padding: 4px;
+}
 .x-filterBox-filterInput {
   height: 36px
 }
-
 .main-contextMenu-filterPlaylistSearchContainer {
   height: auto;
 }
@@ -193,7 +181,6 @@ div#context-menu:before,
     color: #ffffff;
     background-color: var(--spice-text);
 }
-
 .main-notificationBubbleContainer-NotificationBubbleContainer .TypeElement-balladBold-textBase-type {
     color: #ffffff;
 }
@@ -216,7 +203,6 @@ option {
     --lyrics-color-passed: rgba(255, 255, 255, 0.5) !important;
     --lyrics-color-messaging: var(--spice-text) !important;
 }
-
 .main-nowPlayingView-sectionHeaderSpacing .main-nowPlayingView-lyricsTitle {
     color: var(--spice-text);
     min-height: 32px;
@@ -225,7 +211,6 @@ option {
 :root {
   --lyrics-text-direction: left;
 }
-
 .lyrics-lyricsContent-lyric {
   transform-origin: var(--lyrics-text-direction);
   transform: scale(0.9);
@@ -237,15 +222,12 @@ option {
 .C3pBU1DsOUJJOAv89ZFT {
   color: var(--lyrics-text-direction) !important;
 }
-
 .lyrics-lyricsContent-lyric:hover {
   color: var(--lyrics-color-active) !important;
 }
-
 .lyrics-lyricsContent-isInteractive:active {
   transform: scale(0.9);
 }
-
 .lyrics-lyricsContent-active {
   transform: scale(1);
   text-shadow: 0 0 15px var(--spice-text) !important;
@@ -263,7 +245,6 @@ option {
 .main-contextMenu-menuItemButton:not(.main-contextMenu-disabled):hover {
     background-color: rgba(var(--spice-rgb-selected-row), 0.2) !important;
 }
-
 .main-contextMenu-menuItemButton {
     color: var(--spice-subtext);
 }
@@ -293,13 +274,11 @@ option {
 .main-nowPlayingBar-center button:focus:not(:focus-visible):not(:hover) {
     color: var(--spice-subtext);
 }
-
 .main-nowPlayingBar-left button:active,
 .main-nowPlayingBar-right button:active,
 .main-nowPlayingBar-center button:not(.main-playPauseButton-button):active {
     color: rgba(var(--spice-rgb-text), 0.7) !important;
 }
-
 .main-playPauseButton-button {
     color: var(--spice-main) !important;
 }
@@ -313,7 +292,6 @@ option {
 .main-trackList-active {
     background-color: rgba(var(--spice-rgb-selected-row), 0.2) !important;
 }
-
 .encore-dark-theme .encore-bright-accent-set {
     --background-highlight: var(--spice-text);
     --background-press: var(--spice-button-active);
@@ -324,11 +302,9 @@ option {
 .main-topBar-historyButtons .main-topBar-button {
     background-color: var(--spice-notification);
 }
-
 .main-topBar-buddyFeed {
     color: rgba(var(--spice-rgb-text), 0.5);
 }
-
 .search-searchCategory-carouselButton {
     background-color: var(--background-tinted-highlight);
 }
@@ -353,13 +329,11 @@ option {
 .encore-announcement-set button {
     color: white;
 }
-
 .tippy-box {
     color: var(--spice-text);
     border-color: var(--spice-text);
     background-color: var(--spice-shadow) !important;
 }
-
 .tippy-arrow {
     color: var(--spice-text);
 }
@@ -374,7 +348,6 @@ option {
 .artist-artistVerifiedBadge-fillColor {
     background-color: var(--spice-main);
 }
-
 .artist-artistVerifiedBadge-badge {
     fill: var(--spice-text);
 }
@@ -383,11 +356,9 @@ option {
 .main-yourLibraryX-listItemGroup:hover::after {
     background-color: rgba(var(--spice-rgb-selected-row), 0.2) !important;
 }
-
 .main-yourLibraryX-listItemGroup div:hover {
     background-color: unset;
 }
-
 .main-yourLibraryX-listItemGroup:hover .LineClamp,
 .main-yourLibraryX-listItemGroup:hover .main-yourLibraryX-listRowSubtitleLeadingWrapper {
     color: var(--spice-text);
@@ -427,7 +398,6 @@ option {
         background: unset !important;
         --background-base: rgba(var(--spice-rgb-shadow), 0.5) !important;
     }
-
     .main-buddyFeed-friendActivity a,
     .main-buddyFeed-timestamp {
         color: var(--text-subdued, #6a6a6a) !important;
@@ -436,7 +406,6 @@ option {
     .main-buddyFeed-container {
         --background-base: var(--backdrop) !important;
     }
-
     .main-nowPlayingView-section {
         background-color: var(--backdrop);
 		padding: 16px;
@@ -448,37 +417,31 @@ option {
     initial-value: magenta;
     inherits: true;
 }
-
 @property --spice-main {
     syntax: "<color>";
     initial-value: magenta;
     inherits: true;
 }
-
 @property --spice-text {
     syntax: "<color>";
     initial-value: magenta;
     inherits: true;
 }
-
 @property --spice-subtext {
     syntax: "<color>";
     initial-value: magenta;
     inherits: true;
 }
-
 @property --spice-button {
     syntax: "<color>";
     initial-value: magenta;
     inherits: true;
 }
-
 @property --spice-player {
     syntax: "<color>";
     initial-value: magenta;
     inherits: true;
 }
-
 html {
     transition:
         --spice-sidebar 0.5s,
@@ -495,19 +458,15 @@ html {
   backdrop-filter: blur(15px);
   height: 1040px;
 }
-
 .main-embedWidgetGenerator-container > .main-trackCreditsModal-mainSection::-webkit-scrollbar {
   width: 4px;
 }
-
 .main-embedWidgetGenerator-container > .main-trackCreditsModal-mainSection::-webkit-scrollbar-thumb {
 border-radius: 2px
 }
-
 .spicetify-exp-features button.switch {
   border-radius: transparent !important
 }
-
 .spicetify-exp-features input.search {
   border: none !important;
   background-color: rgba(var(--spice-rgb-selected-row),.1) !important;
@@ -516,7 +475,6 @@ border-radius: 2px
   color: var(--spice-text);
   width: 100%;
 }
-
 .spicetify-exp-features .setting-row .col.description {
   font-size: 0.95rem;
 }
