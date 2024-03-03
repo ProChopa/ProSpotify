@@ -159,7 +159,8 @@ div#context-menu:before,
 }
 .NbcaczStd8vD2rHWwaKv {
     -webkit-app-region: no-drag;
-    background: transparent !important;
+    /*background: transparent !important;*/
+    background-image: var(--image_url);
     border-radius: 4px;
     -webkit-box-shadow: 0 16px 24px rgba(0,0,0,.3), 0 6px 8px rgba(0,0,0,.2);
     box-shadow: 0 16px 24px rgba(0,0,0,.3), 0 6px 8px rgba(0,0,0,.2);
