@@ -152,15 +152,8 @@ div#context-menu:before,
 .main-contextMenu-menuItemButton {
     border-radius: 1px;
 }
-.main-contextMenu-menu,
-.main-contextMenu-tippy,
-.aCtCKL9BxAoHeVZS0uRs {
+.main-contextMenu-menu, .main-contextMenu-tippy, .aCtCKL9BxAoHeVZS0uRs, .NbcaczStd8vD2rHWwaKv {
   background: transparent !important;
-}
-.NbcaczStd8vD2rHWwaKv {
-  /*background: transparent;*/
-  filter: blur(15px);
-  opacity: 0.17;
 }
 .x-filterBox-filterInput {
   height: 36px
