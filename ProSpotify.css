@@ -158,7 +158,7 @@ div#context-menu:before,
   background: transparent !important;
 }
 .NbcaczStd8vD2rHWwaKv {
-  background: transparent;
+  /*background: transparent;*/
   backdrop-filter: blur(15px);
 }
 .x-filterBox-filterInput {
