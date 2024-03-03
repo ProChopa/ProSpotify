@@ -157,10 +157,10 @@ div#context-menu:before,
 .aCtCKL9BxAoHeVZS0uRs {
   background: transparent !important;
 }
-/*.NbcaczStd8vD2rHWwaKv {
-  background: transparent !important;
+.NbcaczStd8vD2rHWwaKv {
+  background: transparent;
   backdrop-filter: blur(15px);
-}*/
+}
 .x-filterBox-filterInput {
   height: 36px
 }
