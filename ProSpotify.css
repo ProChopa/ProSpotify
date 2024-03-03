@@ -154,38 +154,20 @@ div#context-menu:before,
 }
 .main-contextMenu-menu,
 .main-contextMenu-tippy,
+.aCtCKL9BxAoHeVZS0uRs {
+  background: transparent !important;
+}
 .NbcaczStd8vD2rHWwaKv {
   background: transparent !important;
   backdrop-filter: blur(15px);
 }
+
 .x-filterBox-filterInput {
   height: 36px
 }
 .main-contextMenu-filterPlaylistSearchContainer {
   height: auto;
 }
-
-::-webkit-scrollbar {
-    border-radius: 4px;
-    width: 6px;
-    background: var(--spice-button-disabled);
-}
-
-/* ползунок скроллбара */
-::-webkit-scrollbar-thumb {
-    border-radius: 4px;
-    width: 6px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    border-radius: 4px;
-    width: 6px;
-}
-
-/*. {
-border-radius: 4px;
-width: 6px;
-}*/
 
 /* notification toaster */
 .main-notificationBubbleContainer-NotificationBubbleContainer .main-notificationBubble-NotificationBubble {
