@@ -145,6 +145,7 @@ h1,
 div#context-menu:before,
 .main-contextMenu-menu:before {
   content: '';
+  background-image: var(--image_url);
   z-index: -1;
   position: absolute;
   top: 0;
