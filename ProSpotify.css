@@ -26,7 +26,7 @@ html:not(.spotify__container--is-desktop.fullscreen) body.windows:not(.video-ful
   z-index: 999;
   backdrop-filter: brightness(2.12);
   width: var(--control-width);
-  /*height: var(--control-height);*/
+  height: var(--control-height);
 }
 
 /* remove left sidebar background */
