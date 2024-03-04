@@ -59,6 +59,15 @@
 });
 
 / Default-Dynamic /
+function waitForElement(els, func, timeout = 100) {
+    const queries = els.map((el) => document.querySelector(el));
+    if (queries.every((a) => a)) {
+        func(queries);
+    } else if (timeout > 0) {
+        setTimeout(waitForElement, 300, els, func, --timeout);
+    }
+}
+
 function getAlbumInfo(id) {
     return Spicetify.CosmosAsync.get(`https://api.spotify.com/v1/albums/${id}`);
 }
