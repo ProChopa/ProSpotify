@@ -23,13 +23,16 @@
           // When clicking a song from the homepage, songChange is fired with half empty metadata
           setTimeout(onSongChange, 200);
       }
+
       loopOptions("/")
       updateLyricsPageProperties();
   }
+  
   Spicetify.Player.addEventListener("songchange", onSongChange);
   onSongChange();
   windowControls();
   controlDimensions();
+  galaxyFade();
   
   function windowControls() {
     function detectOS() {
