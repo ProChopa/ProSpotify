@@ -5,6 +5,11 @@
     return;
   }
 
+  console.log("ProSpotify is running"); 
+  function getAlbumInfo(uri) {
+      return Spicetify.CosmosAsync.get(`https://api.spotify.com/v1/albums/${uri}`);
+  }
+  
   async function onSongChange() {
       let album_uri = Spicetify.Player.data.item.metadata.album_uri;
       let bgImage = Spicetify.Player.data.item.metadata.image_url;
