@@ -1,39 +1,29 @@
+/ Hazy /
 (function ProSpotify() {
   if (!(Spicetify.Player.data && Spicetify.Platform)) {
-    setTimeout(ProSpotify, 100);
+    setTimeout(hazy, 100);
     return;
   }
-  
-  async function onSongChange() {
-      fetchFadeTime(); // Call fetchFadeTime after songchange
 
+  async function onSongChange() {
       let album_uri = Spicetify.Player.data.item.metadata.album_uri;
       let bgImage = Spicetify.Player.data.item.metadata.image_url;
-  
       if (album_uri !== undefined && !album_uri.includes("spotify:show")) {
           const albumInfo = await getAlbumInfo(album_uri.replace("spotify:album:", ""));
       } else if (Spicetify.Player.data.item.uri.includes("spotify:episode")) {
-          // podcast
           bgImage = bgImage.replace("spotify:image:", "https://i.scdn.co/image/");
-          
       } else if (Spicetify.Player.data.item.provider == "ad") {
-          // ad
           return;
       } else {
-          // When clicking a song from the homepage, songChange is fired with half empty metadata
           setTimeout(onSongChange, 200);
       }
-
-      loopOptions("/")
-      updateLyricsPageProperties();
   }
   
   Spicetify.Player.addEventListener("songchange", onSongChange);
   onSongChange();
   windowControls();
   controlDimensions();
-  galaxyFade();
-  
+
   function windowControls() {
     function detectOS() {
       const userAgent = window.navigator.userAgent;
@@ -62,19 +52,13 @@
         console.log(zoomLevel)
     });
   }
+  
   window.addEventListener('resize', function() {
     controlDimensions();
   });
-}
-function waitForElement(els, func, timeout = 100) {
-    const queries = els.map((el) => document.querySelector(el));
-    if (queries.every((a) => a)) {
-        func(queries);
-    } else if (timeout > 0) {
-        setTimeout(waitForElement, 300, els, func, --timeout);
-    }
-}
+});
 
+/ Default-Dynamic /
 function getAlbumInfo(id) {
     return Spicetify.CosmosAsync.get(`https://api.spotify.com/v1/albums/${id}`);
 }
