@@ -1,38 +1,16 @@
-/ Hazy /
 (function ProSpotify() {
   if (!(Spicetify.Player.data && Spicetify.Platform)) {
     setTimeout(ProSpotify, 100);
     return;
   }
 
-  console.log("ProSpotify is running"); 
-  function getAlbumInfo(uri) {
-      return Spicetify.CosmosAsync.get(`https://api.spotify.com/v1/albums/${uri}`);
-  }
-  
-  async function onSongChange() {
-      let album_uri = Spicetify.Player.data.item.metadata.album_uri;
-      let bgImage = Spicetify.Player.data.item.metadata.image_url;
-      if (album_uri !== undefined && !album_uri.includes("spotify:show")) {
-          const albumInfo = await getAlbumInfo(album_uri.replace("spotify:album:", ""));
-      } else if (Spicetify.Player.data.item.uri.includes("spotify:episode")) {
-          bgImage = bgImage.replace("spotify:image:", "https://i.scdn.co/image/");
-      } else if (Spicetify.Player.data.item.provider == "ad") {
-          return;
-      } else {
-          setTimeout(onSongChange, 200);
-      }
-  }
-  
-  Spicetify.Player.addEventListener("songchange", onSongChange);
-  onSongChange();
+  async function onSongChange() {}
   windowControls();
   controlDimensions();
 
   function windowControls() {
     function detectOS() {
       const userAgent = window.navigator.userAgent;
-      
       if (userAgent.indexOf('Win') !== -1) {
         document.body.classList.add('windows');
       }
@@ -43,27 +21,20 @@
   function controlDimensions() {
     Spicetify.Platform.PlayerAPI._prefs.get({ key: 'app.browser.zoom-level' }).then((value) => {
       const  zoomLevel = value.entries['app.browser.zoom-level'].number;
-        console.log(zoomLevel)
       const multiplier = zoomLevel != 0 ? zoomLevel/50 : 0;
-        console.log(multiplier)
       constant = 0.912872807
 
         final_width = 135 * (constant**(multiplier));
         final_height = 31 * (constant**(multiplier));
         document.documentElement.style.setProperty("--control-width", Math.abs(final_width) + "px");
         document.documentElement.style.setProperty("--control-height", Math.abs(final_height) + "px");
-        console.log("its done")
-        console.log(multiplier)
-        console.log(zoomLevel)
     });
   }
-  
   window.addEventListener('resize', function() {
     controlDimensions();
   });
-});
+})()
 
-/ Default-Dynamic /
 function waitForElement(els, func, timeout = 100) {
     const queries = els.map((el) => document.querySelector(el));
     if (queries.every((a) => a)) {
