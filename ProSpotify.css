@@ -203,7 +203,7 @@ div#context-menu:before, .main-contextMenu-menu:before {
 
 /* MENU ITEM HOVER */
 .main-contextMenu-menuItemButton:not(.main-contextMenu-disabled):focus, .main-contextMenu-menuItemButton:not(.main-contextMenu-disabled):hover {
-    background: rgba(var(--spice-rgb-selected-row), 0.2) !important;
+    background: rgba(var(--spice-rgb-selected-row), 0.2);
 }
 .main-contextMenu-menuItemButton {
     color: var(--spice-subtext);
@@ -305,13 +305,13 @@ div#context-menu:before, .main-contextMenu-menu:before {
 
 /* LEFT SIDEBAR HOVER */
 .main-yourLibraryX-listItemGroup:hover::after {
-    background: rgba(var(--spice-rgb-selected-row), 0.2) !important;
+    background: rgba(var(--spice-rgb-selected-row), calc(var(--is_light) * (-0.13) + 0.2));
 }
 .main-yourLibraryX-listItemGroup div:hover {
     background: unset;
 }
 .main-yourLibraryX-listItemGroup:hover .LineClamp, .main-yourLibraryX-listItemGroup:hover .main-yourLibraryX-listRowSubtitleLeadingWrapper {
-    color: rgba(var(--spice-rgb-selected-row), 0.2) !important;
+    color: var(--spice-text);
 }
 
 /* REMOVE BLUE OUTLINE IN CONFIRMATION POPUP */
