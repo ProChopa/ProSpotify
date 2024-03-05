@@ -197,7 +197,7 @@ div#context-menu:before, .main-contextMenu-menu:before {
 
 /* PLAYLIST HEADER */
 .main-duration-container, .main-entityHeader-metaDataText, .playlist-playlist-playlistDescription {
-    color: var(--spice-text);
+    background: transparent;
 }
 
 /* MENU ITEM HOVER */
