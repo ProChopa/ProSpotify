@@ -15,7 +15,41 @@ div.ReactModalPortal:last-of-type::before {
     }
 }
 
-
+/* REMOVE LEFT SIDEBAR BACKGROUND */
+.Root__nav-bar  {
+     background-color: transparent
+ } 
+ .main-yourLibraryX-entryPoints, .playlist-playlist-playlistContent {
+     background-color: transparent !important
+ }
+ .main-yourLibraryX-header .main-yourLibraryX-collapseButtonWrapper {
+   color: var(--spice-subtext);
+ }
+ .BoxComponent-group-tinted-isInteractive-hasLeadingOrMedia-paddingBlockStart_8px-paddingBlockEnd_8px-minBlockSize_56px-padding_8px {
+     background-color: var(--background-tinted-base,rgba(0,0,0,0.08));
+ }
+ .BoxComponent-group-tinted-isInteractive-hasLeadingOrMedia-paddingBlockStart_8px-paddingBlockEnd_8px-minBlockSize_56px-padding_8px:hover {
+     background-color: var(--background-tinted-base,rgba(0,0,0,0.08));
+ }
+ .main-navBar-navBarLinkActive,
+ .main-collectionLinkButton-selected {
+   border-radius: 0px !important;
+ }
+ .main-yourLibraryX-libraryContainer {
+   --background-highlight: rgba(255,255,255,0.05) !important;
+   --background-press: rgba(255,255,255,0.05);
+ }
+ .main-rootlist-wrapper {
+   --spice-rgb-shadow: !important;
+ }
+ .main-yourLibraryX-isScrolled {
+   -webkit-box-shadow: 0 8px 6px rgba(0, 0, 0, 0.3);
+   box-shadow: 0 8px 6px rgba(0, 0, 0, 0.3);
+   transition: box-shadow 0.1s ease;
+ }
+ .main-yourLibraryX-listRowEntityImage {
+   box-shadow: -2px 4px 6px 2px rgb(0 0 0 / 14%);;
+ }
 
 /* SEARCH BOXES */
 input {
