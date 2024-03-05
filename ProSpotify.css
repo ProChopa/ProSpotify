@@ -5,62 +5,24 @@
     --system_is_dark: 1;
     --warning_message: "You haven't installed 'ProSpotify.js' extension.";
 }
+
 div.ReactModalPortal:last-of-type::before {
     font-size: 30px;
     content: var(--warning_message);
 }
+
 @media (prefers-color-scheme: light) {
     :root {
         --system_is_dark: 0;
     }
 }
 
-/* transparent window controls */
-html:not(.spotify__container--is-desktop.fullscreen) body.windows:not(.video-full-window)::after {
-  content: '';
-  position: absolute;
-  right: 0;
-  z-index: 999;
-  backdrop-filter: brightness(2.12);
-  width: var(--control-width);
-  height: var(--control-height);
-}
-
 /* remove left sidebar background */
-.Root__nav-bar  {
-     background-color: transparent
- } 
- .main-yourLibraryX-entryPoints, .playlist-playlist-playlistContent {
-     background-color: transparent !important
- }
- .main-yourLibraryX-header .main-yourLibraryX-collapseButtonWrapper {
-   color: var(--spice-subtext);
- }
- .BoxComponent-group-tinted-isInteractive-hasLeadingOrMedia-paddingBlockStart_8px-paddingBlockEnd_8px-minBlockSize_56px-padding_8px {
-     background-color: var(--background-tinted-base,rgba(0,0,0,0.08));
- }
- .BoxComponent-group-tinted-isInteractive-hasLeadingOrMedia-paddingBlockStart_8px-paddingBlockEnd_8px-minBlockSize_56px-padding_8px:hover {
-     background-color: var(--background-tinted-base,rgba(0,0,0,0.08));
- }
- .main-navBar-navBarLinkActive,
- .main-collectionLinkButton-selected {
-   border-radius: 0px !important;
- }
- .main-yourLibraryX-libraryContainer {
-   --background-highlight: rgba(255,255,255,0.05) !important;
-   --background-press: rgba(255,255,255,0.05);
- }
- .main-rootlist-wrapper {
-   --spice-rgb-shadow: !important;
- }
- .main-yourLibraryX-isScrolled {
-   -webkit-box-shadow: 0 8px 6px rgba(0, 0, 0, 0.3);
-   box-shadow: 0 8px 6px rgba(0, 0, 0, 0.3);
-   transition: box-shadow 0.1s ease;
- }
- .main-yourLibraryX-listRowEntityImage {
-   box-shadow: -2px 4px 6px 2px rgb(0 0 0 / 14%);;
- }
+.main-yourLibraryX-entryPoints,
+.Root__nav-bar,
+.main-rootlist-rootlistDividerGradient {
+    background: unset;
+}
 
 /* search boxes */
 input {
@@ -70,9 +32,11 @@ input {
     padding: 6px 10px 6px 48px;
     color: var(--spice-text) !important;
 }
+
 input::placeholder {
     color: var(--spice-subtext) !important;
 }
+
 input:focus {
     box-shadow: none !important;
 }
@@ -85,26 +49,29 @@ h1,
 .TypeElement-canon-textBase-type {
     color: var(--spice-subtext) !important;
 }
+
 .x-searchInput-searchInputSearchIcon,
 .x-searchInput-searchInputClearButton {
     color: var(--spice-text) !important;
 }
 
-/* remove topbar background colour */
+/* Remove Topbar background colour */
 .Root__top-bar {
     z-index: 1;
 }
+
 .main-topBar-overlay {
     background-color: var(--spice-main);
 }
-.nav-ylx .main-trackList-trackListHeaderStuck.main-trackList-trackListHeader,
-.main-trackList-trackListHeader.main-trackList-trackListHeaderStuck {
-  background: transparent;
-  position: static !important;
+
+.main-entityHeader-shadow,
+.main-contextMenu-menu,
+.connect-device-list-container {
+    box-shadow: 0 4px 20px #21212130;
 }
 
 /* translucent background cover */
-.Root__top-container::before {
+#main::before, .Root__top-container::before {
     content: "";
     background-image: var(--image_url);
     background-repeat: no-repeat;
@@ -126,8 +93,7 @@ h1,
 }
 
 /* context menu */
-div#context-menu:before,
-.main-contextMenu-menu:before {
+div#context-menu:before, .main-contextMenu-menu:before {
   content: '';
   z-index: -1;
   position: absolute;
@@ -169,6 +135,19 @@ div#context-menu:before,
 }
 .main-notificationBubbleContainer-NotificationBubbleContainer .TypeElement-balladBold-textBase-type {
     color: #ffffff;
+}
+
+/* spotify dynamic gradients */
+.main-home-homeHeader {
+    opacity: 0.3;
+    background-color: var(--spice-text) !important;
+}
+
+.main-actionBarBackground-background,
+.main-entityHeader-backgroundColor {
+    opacity: 0.15;
+    background-color: var(--spice-text) !important;
+    filter: grayscale(0.5);
 }
 
 /* drop down */
@@ -226,10 +205,10 @@ option {
     color: var(--spice-text);
 }
 
-/* menu item hover */
+/* Menu item hover */
 .main-contextMenu-menuItemButton:not(.main-contextMenu-disabled):focus,
 .main-contextMenu-menuItemButton:not(.main-contextMenu-disabled):hover {
-    background-color: rgba(var(--spice-rgb-selected-row), 0.2) !important;
+    background-color: rgba(var(--spice-rgb-selected-row), 0.2);
 }
 .main-contextMenu-menuItemButton {
     color: var(--spice-subtext);
@@ -306,6 +285,7 @@ option {
 }
 
 /* Search cards */
+.search-searchBrowse-SearchBrowse span.TypeElement-canon-type,
 .x-categoryCard-title {
     color: white;
 }
@@ -340,11 +320,13 @@ option {
 
 /* left sidebar hover */
 .main-yourLibraryX-listItemGroup:hover::after {
-    background-color: rgba(var(--spice-rgb-selected-row), 0.2) !important;
+    background-color: rgba(var(--spice-rgb-selected-row), calc(var(--is_light) * (-0.13) + 0.2));
 }
+
 .main-yourLibraryX-listItemGroup div:hover {
     background-color: unset;
 }
+
 .main-yourLibraryX-listItemGroup:hover .LineClamp,
 .main-yourLibraryX-listItemGroup:hover .main-yourLibraryX-listRowSubtitleLeadingWrapper {
     color: var(--spice-text);
@@ -353,6 +335,24 @@ option {
 /* Remove blue outline in confirmation popup */
 .main-confirmDialog-buttonContainer button:focus {
     outline: 5px auto white;
+}
+
+/* Playlist tips popup */
+.StyledPopover-dialog-popover {
+    --background-elevated-base: var(--spice-text) !important;
+}
+
+/* Playlist filter pills */
+.ChipInnerComponent-selected-secondary {
+    background: var(--essential-subdued) !important;
+}
+
+/* Adding border Radius to Navbar/topbar Container */
+.main-topBar-container.main-topBar-withBackgroundBlur .main-topBar-background {
+    border-radius: 8px;
+}
+.main-topBar-container {
+    border-radius: 8px !important;
 }
 
 /* optional mode with emphasized background */
@@ -403,31 +403,37 @@ option {
     initial-value: magenta;
     inherits: true;
 }
+
 @property --spice-main {
     syntax: "<color>";
     initial-value: magenta;
     inherits: true;
 }
+
 @property --spice-text {
     syntax: "<color>";
     initial-value: magenta;
     inherits: true;
 }
+
 @property --spice-subtext {
     syntax: "<color>";
     initial-value: magenta;
     inherits: true;
 }
+
 @property --spice-button {
     syntax: "<color>";
     initial-value: magenta;
     inherits: true;
 }
+
 @property --spice-player {
     syntax: "<color>";
     initial-value: magenta;
     inherits: true;
 }
+
 html {
     transition:
         --spice-sidebar 0.5s,
@@ -463,4 +469,15 @@ border-radius: 2px
 }
 .spicetify-exp-features .setting-row .col.description {
   font-size: 0.95rem;
+}
+
+/* transparent window controls */
+html:not(.spotify__container--is-desktop.fullscreen) body.windows:not(.video-full-window)::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  z-index: 999;
+  backdrop-filter: brightness(2.12);
+  width: var(--control-width);
+  height: var(--control-height);
 }
