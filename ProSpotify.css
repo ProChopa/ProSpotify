@@ -110,7 +110,7 @@ h1, .main-entityHeader-titleButton,.main-entityHeader-title, .main-shelf-title, 
 /* CONTEXT MENU */
 div#context-menu:before, .main-contextMenu-menu:before {
   content: '';
-  background-image: var(--image_url);
+  background: transparent !important;
   z-index: -1;
   position: absolute;
   top: 0;
@@ -118,8 +118,7 @@ div#context-menu:before, .main-contextMenu-menu:before {
   right: 0;
   bottom: 0;
   border-radius: 1px !important;
-  filter: blur(15px);
-  opacity: 0.17;
+  backdrop-filter: blur(15px);
 }
 .main-contextMenu-menu {
   border-radius: 1px;
