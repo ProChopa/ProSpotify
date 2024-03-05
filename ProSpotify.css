@@ -252,7 +252,7 @@ div#context-menu:before, .main-contextMenu-menu:before {
 
 /* TOP BUTTONS */
 .main-topBar-historyButtons .main-topBar-button {
-    background-color: var(--spice-notification);
+    background-color: transparent;
 }
 .main-topBar-buddyFeed {
     color: rgba(var(--spice-rgb-text), 0.5);
