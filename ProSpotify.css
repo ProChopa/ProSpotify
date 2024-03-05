@@ -212,7 +212,7 @@ div#context-menu:before, .main-contextMenu-menu:before {
 /* EXPLICIT LYRICS ICON */
 .main-tag-container {
     color: var(--spice-subtext);
-    background-color: rgba(var(--spice-rgb-subtext), 0.2) !important;
+    background: rgba(var(--spice-rgb-subtext), 0.2) !important;
 }
 
 /* PLAYLIST TOP BUTTONS */
@@ -253,7 +253,7 @@ div#context-menu:before, .main-contextMenu-menu:before {
 
 /* TOP BUTTONS */
 .main-topBar-historyButtons .main-topBar-button {
-    background-color: transparent;
+    background: rgba(var(--spice-rgb-selected-row), 0.2) !important;
 }
 .main-topBar-buddyFeed {
     color: rgba(var(--spice-rgb-text), 0.5);
