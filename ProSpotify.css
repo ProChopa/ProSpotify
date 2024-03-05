@@ -31,8 +31,7 @@ div.ReactModalPortal:last-of-type::before {
  .BoxComponent-group-tinted-isInteractive-hasLeadingOrMedia-paddingBlockStart_8px-paddingBlockEnd_8px-minBlockSize_56px-padding_8px:hover {
      background-color: var(--background-tinted-base,rgba(0,0,0,0.08));
  }
- .main-navBar-navBarLinkActive,
- .main-collectionLinkButton-selected {
+ .main-navBar-navBarLinkActive, .main-collectionLinkButton-selected {
    border-radius: 0px !important;
  }
  .main-yourLibraryX-libraryContainer {
