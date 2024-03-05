@@ -117,7 +117,8 @@ div#context-menu:before, .main-contextMenu-menu:before {
   right: 0;
   bottom: 0;
   border-radius: 1px !important;
-  backdrop-filter: blur(15px) ;
+  backdrop-filter: blur(15px);
+  opacity: 0.17;
 }
 .main-contextMenu-menu {
   border-radius: 1px;
