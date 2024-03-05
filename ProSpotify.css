@@ -137,19 +137,6 @@ div#context-menu:before, .main-contextMenu-menu:before {
     color: #ffffff;
 }
 
-/* spotify dynamic gradients */
-.main-home-homeHeader {
-    opacity: 0.3;
-    background-color: var(--spice-text) !important;
-}
-
-.main-actionBarBackground-background,
-.main-entityHeader-backgroundColor {
-    opacity: 0.15;
-    background-color: var(--spice-text) !important;
-    filter: grayscale(0.5);
-}
-
 /* drop down */
 .main-dropDown-dropDown,
 select,
