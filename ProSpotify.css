@@ -15,10 +15,7 @@ div.ReactModalPortal:last-of-type::before {
     }
 }
 
-/* REMOVE LEFT SIDEBAR BACKGROUND */
-.main-yourLibraryX-entryPoints, .Root__nav-bar, .main-rootlist-rootlistDividerGradient {
-    background: transparent !important;
-}
+
 
 /* SEARCH BOXES */
 input {
