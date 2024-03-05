@@ -81,8 +81,9 @@ h1, .main-entityHeader-titleButton,.main-entityHeader-title, .main-shelf-title, 
 .main-topBar-overlay {
     background-color: var(--spice-main);
 }
-.main-entityHeader-shadow, .main-contextMenu-menu, .connect-device-list-container {
-    box-shadow: 0 4px 20px #21212130;
+.nav-ylx .main-trackList-trackListHeaderStuck.main-trackList-trackListHeader, .main-trackList-trackListHeader.main-trackList-trackListHeaderStuck {
+  background: transparent;
+  position: static !important;
 }
 
 /* TRANSLUCENT BACKGROUND COVER */
@@ -197,7 +198,7 @@ div#context-menu:before, .main-contextMenu-menu:before {
 
 /* PLAYLIST HEADER */
 .main-duration-container, .main-entityHeader-metaDataText, .playlist-playlist-playlistDescription {
-    background: transparent;
+    color: var(--spice-text);
 }
 
 /* MENU ITEM HOVER */
