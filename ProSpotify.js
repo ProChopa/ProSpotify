@@ -1,3 +1,130 @@
+ (function ProSpotify() {
+  if (!(Spicetify.Player.data && Spicetify.Platform)) {
+    setTimeout(hazy, 100);
+    return;
+  }
+  console.log("ProSpotify is running");
+
+  async function onSongChange() {
+      let album_uri = Spicetify.Player.data.item.metadata.album_uri;
+      let bgImage = Spicetify.Player.data.item.metadata.image_url;
+      if (album_uri !== undefined && !album_uri.includes("spotify:show")) {
+          const albumInfo = await getAlbumInfo(album_uri.replace("spotify:album:", ""));
+      } else if (Spicetify.Player.data.item.uri.includes("spotify:episode")) {
+          bgImage = bgImage.replace("spotify:image:", "https://i.scdn.co/image/");
+          
+      } else if (Spicetify.Player.data.item.provider == "ad") {
+          return;
+      } else {
+          setTimeout(onSongChange, 200);
+      }
+	  updateLyricsPageProperties();
+  }
+  Spicetify.Player.addEventListener("songchange", onSongChange);
+  onSongChange();
+  windowControls();
+  controlDimensions();
+
+  function windowControls() {
+    function detectOS() {
+      const userAgent = window.navigator.userAgent;
+      if (userAgent.indexOf('Win') !== -1) {
+        document.body.classList.add('windows');
+      }
+    }
+    detectOS();
+  }
+
+  function controlDimensions() {
+    Spicetify.Platform.PlayerAPI._prefs.get({ key: 'app.browser.zoom-level' }).then((value) => {
+      const  zoomLevel = value.entries['app.browser.zoom-level'].number;
+      const multiplier = zoomLevel != 0 ? zoomLevel/50 : 0;
+      constant = 0.912872807
+        final_width = 135 * (constant**(multiplier));
+        final_height = 40 * (constant**(multiplier));
+        document.documentElement.style.setProperty("--control-width", Math.abs(final_width) + "px");
+        document.documentElement.style.setProperty("--control-height", Math.abs(final_height) + "px");
+        console.log("zoom adjusted")
+    });
+  }
+  window.addEventListener('resize', function() {
+    controlDimensions();
+  });
+
+  Spicetify.Platform.History.listen(updateLyricsPageProperties);
+
+  waitForElement(['.Root__lyrics-cinema'], ([lyricsCinema]) => {
+    const lyricsCinemaObserver = new MutationObserver(updateLyricsPageProperties);
+    const lyricsCinemaObserverConfig = {
+      attributes: true,
+      attributeFilter: ['class'],
+    };
+    lyricsCinemaObserver.observe(lyricsCinema, lyricsCinemaObserverConfig);
+  });
+  waitForElement(['.main-view-container'], ([mainViewContainer]) => {
+    const mainViewContainerResizeObserver = new ResizeObserver(updateLyricsPageProperties);
+    mainViewContainerResizeObserver.observe(mainViewContainer);
+  });
+
+  function updateLyricsPageProperties() {
+    function setLyricsPageProperties() {
+      function detectTextDirection() {
+        const lyric = document.querySelectorAll('.lyrics-lyricsContent-lyric')[2];
+        const rtl_rx = /[\u0591-\u07FF]/;
+        return rtl_rx.test(lyric.innerText) ? 'rtl' : 'ltr';
+      }
+
+      function setLyricsTransformOrigin(textDirection) {
+        if (textDirection === 'rtl') {
+          document.documentElement.style.setProperty('--lyrics-text-direction', 'right');
+        } else {
+          document.documentElement.style.setProperty('--lyrics-text-direction', 'left');
+        }
+      }
+
+      function calculateLyricsMaxWidth(lyricsContentWrapper) {
+        const lyricsContentContainer = lyricsContentWrapper.parentElement;
+        const marginLeft = parseInt(window.getComputedStyle(lyricsContentWrapper).marginLeft, 10);
+        const totalOffset = lyricsContentWrapper.offsetLeft + marginLeft;
+        return Math.round(0.95 * (lyricsContentContainer.clientWidth - totalOffset));
+      }
+
+      function lockLyricsWrapperWidth(lyricsWrapper) {
+        const lyricsWrapperWidth = lyricsWrapper.getBoundingClientRect().width;
+        lyricsWrapper.style.maxWidth = `${lyricsWrapperWidth}px`;
+        lyricsWrapper.style.width = `${lyricsWrapperWidth}px`;
+      }
+      waitForElement(['.lyrics-lyrics-contentWrapper'], ([lyricsContentWrapper]) => {
+        lyricsContentWrapper.style.maxWidth = '';
+        lyricsContentWrapper.style.width = '';
+        const lyricsTextDirection = detectTextDirection();
+        setLyricsTransformOrigin(lyricsTextDirection);
+        const lyricsMaxWidth = calculateLyricsMaxWidth(lyricsContentWrapper);
+        document.documentElement.style.setProperty('--lyrics-active-max-width', `${lyricsMaxWidth}px`);
+        lockLyricsWrapperWidth(lyricsContentWrapper);
+      });
+    }
+
+    function lyricsCallback(mutationsList, lyricsObserver) {
+      mutationsList.forEach((mutation) => {
+        mutation.addedNodes?.forEach((addedNode) => {
+          if (addedNode.classList?.contains('lyrics-lyricsContent-provider')) {
+            setLyricsPageProperties();
+          }
+        });
+      });
+      lyricsObserver.disconnect;
+    }
+    waitForElement(['.lyrics-lyricsContent-provider'], ([lyricsContentProvider]) => {
+      const lyricsContentWrapper = lyricsContentProvider.parentElement;
+      setLyricsPageProperties();
+      const lyricsObserver = new MutationObserver(lyricsCallback);
+      const lyricsObserverConfig = { childList: true };
+      lyricsObserver.observe(lyricsContentWrapper, lyricsObserverConfig);
+    });
+  }
+})()
+
 let current = "4.8";
 
 function waitForElement(els, func, timeout = 100) {
