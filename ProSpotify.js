@@ -1,6 +1,6 @@
  (function ProSpotify() {
   if (!(Spicetify.Player.data && Spicetify.Platform)) {
-    setTimeout(hazy, 100);
+    setTimeout(ProSpotify, 100);
     return;
   }
   console.log("ProSpotify is running");
