@@ -194,6 +194,10 @@ div#context-menu:before, .main-contextMenu-menu:before {
   transform: scale(1);
   text-shadow: 0 0 15px var(--spice-text) !important;
 }
+.Root__top-container:has(.main-lyricsCinema-lyricsCinemaVisible) .main-topBar-container,
+.Root__top-container:has(.main-lyricsCinema-lyricsCinemaVisible) .under-main-view {
+  display: none;
+}
 
 /* PLAYLIST HEADER */
 .main-duration-container, .main-entityHeader-metaDataText, .playlist-playlist-playlistDescription {
