@@ -123,7 +123,7 @@
       lyricsObserver.observe(lyricsContentWrapper, lyricsObserverConfig);
     });
   }
-})()
+})();
 
 let current = "4.8";
 
