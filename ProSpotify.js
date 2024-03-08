@@ -1,4 +1,4 @@
- (function ProSpotify() {
+(function ProSpotify() {
   if (!(Spicetify.Player.data && Spicetify.Platform)) {
     setTimeout(ProSpotify, 100);
     return;
