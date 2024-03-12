@@ -98,7 +98,7 @@ h1, .main-entityHeader-titleButton,.main-entityHeader-title, .main-shelf-title, 
     backface-visibility: hidden;
     will-change: transform;
     transition: background-image var(--transition);
-    opacity: 0.17;
+    opacity: 0.2;
     z-index: +4;
 }
 
