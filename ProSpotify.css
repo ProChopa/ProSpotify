@@ -130,6 +130,13 @@ div#context-menu:before, .main-contextMenu-menu:before {
 .main-contextMenu-filterPlaylistSearchContainer {
   height: auto;
 }
+.dCFErPEB2gW6WKeaDP9D, .G_kx47mETSrcAUXgg4bz {
+    background: transparent !important;
+    backdrop-filter: blur(15px);
+}
+.Vm4SOrSyMjUh2_y4f1pJ:hover>:first-child {
+    background: rgba(var(--spice-rgb-selected-row), 0.2);
+}
 
 /* NOTIFICATION TOASTER */
 .main-notificationBubbleContainer-NotificationBubbleContainer .main-notificationBubble-NotificationBubble {
