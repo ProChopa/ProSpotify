@@ -10,7 +10,7 @@
     }
 }
 
-/* REMOVE LEFT SIDEBAR BACKGROUND */
+/* LEFT SIDEBAR */
 .Root__nav-bar  {
      background-color: transparent
  } 
@@ -44,6 +44,62 @@
  .main-yourLibraryX-listRowEntityImage {
    box-shadow: -2px 4px 6px 2px rgb(0 0 0 / 14%);;
  }
+.main-yourLibraryX-listItemGroup:hover::after {
+    background: rgba(var(--spice-rgb-selected-row), calc(var(--is_light) * (-0.13) + 0.2));
+}
+.main-yourLibraryX-listItemGroup div:hover {
+    background: unset;
+}
+.main-yourLibraryX-listItemGroup:hover .LineClamp, .main-yourLibraryX-listItemGroup:hover .main-yourLibraryX-listRowSubtitleLeadingWrapper {
+    color: var(--spice-text);
+}
+
+/* RIGHT SIDEBAR + LYRICS */
+.main-nowPlayingView-section {
+	background-color: transparent;
+	padding: 0px;
+	max-height: 346px;
+}
+.main-nowPlayingView-aboutArtist, .main-nowPlayingView-aboutArtistV2, .main-nowPlayingView-queue, .main-nowPlayingView-credits, .main-nowPlayingView-merch, .main-nowPlayingView-artistOnTour {
+    display: none;
+}
+.main-lyricsCinema-container, .lyrics-lyrics-container, .main-nowPlayingView-lyricsGradient {
+    --lyrics-color-background: unset !important;
+    --lyrics-color-active: var(--spice-text) !important;
+    --lyrics-color-inactive: rgba(255, 255, 255, 0.2) !important;
+    --lyrics-color-passed: rgba(255, 255, 255, 0.5) !important;
+    --lyrics-color-messaging: var(--spice-text) !important;
+}
+:root {
+  --lyrics-text-direction: left;
+}
+.lyrics-lyricsContent-lyric {
+  transform-origin: var(--lyrics-text-direction);
+  transform: scale(0.9);
+  text-shadow: -1px 3px 20px rgb(0 0 0 / 15%);
+  transition: transform 400ms ease, text-shadow 400ms ease, color 50ms ease;
+  max-height: 3000px;
+  max-width: 3000px;
+}
+.C3pBU1DsOUJJOAv89ZFT {
+  color: var(--lyrics-text-direction) !important;
+}
+.lyrics-lyricsContent-lyric:hover {
+  color: var(--lyrics-color-active) !important;
+}
+.lyrics-lyricsContent-isInteractive:active {
+  transform: scale(0.9);
+}
+.lyrics-lyricsContent-active {
+  transform: scale(1);
+  text-shadow: 0 0 15px var(--spice-text) !important;
+}
+.Root__top-container:has(.main-lyricsCinema-lyricsCinemaVisible) .main-topBar-container, .Root__top-container:has(.main-lyricsCinema-lyricsCinemaVisible) .under-main-view {
+  display: none;
+}
+button:has(path[d='M11.196 8 6 5v6l5.196-3z'], path[d='.966.783 1.75 1.75 1.75h10.5a1.75']) {
+	display: none;
+}
 
 /* SEARCH BOXES */
 input {
@@ -264,17 +320,6 @@ div#context-menu:before, .main-contextMenu-menu:before {
     fill: var(--spice-text);
 }
 
-/* LEFT SIDEBAR HOVER */
-.main-yourLibraryX-listItemGroup:hover::after {
-    background: rgba(var(--spice-rgb-selected-row), calc(var(--is_light) * (-0.13) + 0.2));
-}
-.main-yourLibraryX-listItemGroup div:hover {
-    background: unset;
-}
-.main-yourLibraryX-listItemGroup:hover .LineClamp, .main-yourLibraryX-listItemGroup:hover .main-yourLibraryX-listRowSubtitleLeadingWrapper {
-    color: var(--spice-text);
-}
-
 /* REMOVE BLUE OUTLINE IN CONFIRMATION POPUP */
 .main-confirmDialog-buttonContainer button:focus {
     outline: 5px auto white;
@@ -288,70 +333,6 @@ div#context-menu:before, .main-contextMenu-menu:before {
 /* PLAYLIST FILTER PILLS */
 .ChipInnerComponent-selected-secondary {
     background: var(--essential-subdued) !important;
-}
-
-/* REMOVE THE BACKGROUNDS FROM HOME */
-.main-home-homeHeader, .Root__top-container, .Root__main-view {
-    background: unset !important;
-}
-
-/* NEW HOME BLOCK BACKGROUNDS */
-.view-homeShortcutsGrid-shortcut, .main-card-card {
-    background-color: rgba(var(--spice-rgb-shadow), 0.5) !important;
-}
-
-/* RIGHT SIDEBAR */
-.main-nowPlayingView-section {
-	background-color: transparent;
-	padding: 0px;
-	max-height: 3000px;
-}
-.main-nowPlayingView-aboutArtist, .main-nowPlayingView-aboutArtistV2, .main-nowPlayingView-queue, .main-nowPlayingView-credits, .main-nowPlayingView-merch, .main-nowPlayingView-artistOnTour {
-    display: none;
-}
-button:has(path[d='M11.196 8 6 5v6l5.196-3z'], path[d='.966.783 1.75 1.75 1.75h10.5a1.75']) {
-	display: none;
-}
-
-/* LYRICS */
-.main-lyricsCinema-container, .lyrics-lyrics-container, .main-nowPlayingView-lyricsGradient {
-    --lyrics-color-background: unset !important;
-    --lyrics-color-active: var(--spice-text) !important;
-    --lyrics-color-inactive: rgba(255, 255, 255, 0.2) !important;
-    --lyrics-color-passed: rgba(255, 255, 255, 0.5) !important;
-    --lyrics-color-messaging: var(--spice-text) !important;
-}
-.main-nowPlayingView-sectionHeaderSpacing .main-nowPlayingView-lyricsTitle {
-    color: var(--spice-text);
-}
-:root {
-  --lyrics-text-direction: left;
-}
-.lyrics-lyricsContent-lyric {
-  transform-origin: var(--lyrics-text-direction);
-  transform: scale(0.9);
-  text-shadow: -1px 3px 20px rgb(0 0 0 / 15%);
-  transition: transform 400ms ease, text-shadow 400ms ease, color 50ms ease;
-  max-width: 3000px;
-}
-
-/* LYRICS NOT AVAILABLE MESSAGE */
-.C3pBU1DsOUJJOAv89ZFT {
-  color: var(--lyrics-text-direction) !important;
-}
-.lyrics-lyricsContent-lyric:hover {
-  color: var(--lyrics-color-active) !important;
-}
-.lyrics-lyricsContent-isInteractive:active {
-  transform: scale(0.9);
-}
-.lyrics-lyricsContent-active {
-  transform: scale(1);
-  text-shadow: 0 0 15px var(--spice-text) !important;
-}
-.Root__top-container:has(.main-lyricsCinema-lyricsCinemaVisible) .main-topBar-container,
-.Root__top-container:has(.main-lyricsCinema-lyricsCinemaVisible) .under-main-view {
-  display: none;
 }
 
 /* SMOOTH COLOR TRANSITIONS */
