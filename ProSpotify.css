@@ -58,7 +58,7 @@
 .main-nowPlayingView-section {
 	background-color: transparent;
 	padding: 0px;
-	max-height: 346px;
+	max-height: 351px;
 }
 .main-nowPlayingView-aboutArtist, .main-nowPlayingView-aboutArtistV2, .main-nowPlayingView-queue, .main-nowPlayingView-credits, .main-nowPlayingView-merch, .main-nowPlayingView-artistOnTour {
     display: none;
@@ -281,7 +281,6 @@ div#context-menu:before, .main-contextMenu-menu:before {
 /* BOTTOM BAR BACKGROUND */
 .main-nowPlayingBar-nowPlayingBar {
     background-color: unset;
-	height: 76px !important;
 }
 
 /* TOPBAR TEXT PADDING */
