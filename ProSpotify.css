@@ -140,7 +140,7 @@ h1,
     color: var(--spice-text) !important;
 }
 
-/* REMOVE TOPBAR BACKGROUND COLOUR */
+/* TOPBAR */
 .Root__top-bar {
     z-index: 1;
 }
@@ -148,8 +148,18 @@ h1,
     background-color: var(--spice-main);
 }
 .main-trackList-trackListHeader {
-  background: transparent;
-  position: static !important;
+    background: none !important;
+    position: static !important;
+}
+.LVMjmN2CaPruPAo62RAY {
+    display: none;
+}
+
+/* REMOVE TOP GRADIENT */
+.main-entityHeader-backgroundColor,
+.main-actionBarBackground-background,
+.main-home-homeHeader {
+	display: none !important;
 }
 
 /* TRANSLUCENT BACKGROUND COVER */
@@ -463,13 +473,6 @@ html:not(.spotify__container--is-desktop.fullscreen) body.windows:not(.video-ful
 }
 .os-theme-spotify > .os-scrollbar-vertical {
     margin: 6px 2px 6px 0
-}
-
-/* REMOVE TOP GRADIENT */
-.main-entityHeader-backgroundColor,
-.main-actionBarBackground-background,
-.main-home-homeHeader {
-	display: none !important;
 }
 
 /* FIX NOW PLAYING ICON COLOR */
