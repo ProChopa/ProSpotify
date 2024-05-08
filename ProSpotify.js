@@ -18,6 +18,7 @@
       } else {
           setTimeout(onSongChange, 200);
       }
+	  loopOptions("/")
 	  updateLyricsPageProperties();
   }
   Spicetify.Player.addEventListener("songchange", onSongChange);
@@ -123,6 +124,35 @@
       lyricsObserver.observe(lyricsContentWrapper, lyricsObserverConfig);
     });
   }
+
+  const config = {}
+
+  function parseOptions() {
+    config.useCurrSongAsHome = JSON.parse(localStorage.getItem("UseCustomBackground"));
+  }
+
+  parseOptions()
+  
+  function loopOptions(page) {
+    if (page === "/") {
+      if (config.useCurrSongAsHome) {
+        document.documentElement.style.setProperty("--image_url", `url("${startImage}")`);
+      } else {
+        let bgImage = Spicetify.Player.data.item.metadata.image_url
+        document.documentElement.style.setProperty("--image_url", `url("${bgImage}")`);
+
+      }
+    } 
+  }
+
+  const defImage = `https://i.imgur.com/Wl2D0h0.png`;
+  let startImage = localStorage.getItem("hazy:startupBg") || defImage;
+
+  // input for custom background images
+  const bannerInput = document.createElement("input");
+  bannerInput.type = "file";
+  bannerInput.className = "banner-input";
+  bannerInput.accept = ["image/jpeg", "image/apng", "image/avif", "image/gif", "image/png", "image/svg+xml", "image/webp"].join(",");
 })();
 
 let current = "4.8";
