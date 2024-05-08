@@ -10,6 +10,28 @@
     }
 }
 
+/* BACKGROUND */
+.Root__top-container::before {
+    content: "";
+    background-image: var(--image_url);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    position: fixed;
+    display: block;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    filter: blur(15px);
+    pointer-events: none;
+    backface-visibility: hidden;
+    will-change: transform;
+    transition: background-image var(--transition);
+    opacity: 0.1;
+    z-index: +4;
+}
+
 /* LEFT SIDEBAR */
 .Root__nav-bar  {
      background-color: transparent
@@ -160,29 +182,6 @@ h1,
 .main-actionBarBackground-background,
 .main-home-homeHeader {
 	display: none !important;
-}
-
-/* TRANSLUCENT BACKGROUND COVER */
-#main::before,
-.Root__top-container::before {
-    content: "";
-    background-image: var(--image_url);
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center center;
-    position: fixed;
-    display: block;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    filter: blur(15px);
-    pointer-events: none;
-    backface-visibility: hidden;
-    will-change: transform;
-    transition: background-image var(--transition);
-    opacity: 0.1;
-    z-index: +4;
 }
 
 /* CONTEXT MENU */
