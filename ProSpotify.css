@@ -83,7 +83,7 @@
 .main-nowPlayingView-section {
 	background-color: transparent;
 	padding: 0px;
-	max-height: 351px;
+	max-height: 333px;
 }
 .main-nowPlayingView-aboutArtist,
 .main-nowPlayingView-aboutArtistV2,
@@ -235,6 +235,10 @@ div#context-menu:before,
 }
 .XvgFwKtvocRdadc47KE9:hover>:first-child {
     background: rgba(var(--spice-rgb-selected-row), 0.2);
+}
+.tippy-box[data-theme~=device-picker] {
+	background-color: unset;
+	backdrop-filter: blur(15px);
 }
 
 /* NOTIFICATION TOASTER */
