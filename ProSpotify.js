@@ -713,7 +713,6 @@ function toggleDark(setDark) {
     setRootColor("shadow", textColorBg);
     setRootColor("card", setDark ? "#040404" : "#ECECEC");
     setRootColor("subtext", setDark ? "#EAEAEA" : "#3D3D3D");
-    setRootColor("selected-row", setDark ? "#EAEAEA" : "#3D3D3D");
     setRootColor("main-elevated", setDark ? "#303030" : "#DDDDDD");
     setRootColor("notification", setDark ? "#303030" : "#DDDDDD");
     setRootColor("highlight-elevated", setDark ? "#303030" : "#DDDDDD");
