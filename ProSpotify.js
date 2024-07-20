@@ -749,9 +749,7 @@ function updateColors(textColHex) {
     if (textColHex == undefined) return registerCoverListener();
 
     let isLightBg = isLight(textColorBg);
-    if (isLightBg)
-        textColHex = lightenDarkenColor(textColHex, -15); // vibrant color is always too bright for white bg mode
-    else textColHex = setLightness(textColHex, 0.45);
+    if (isLightBg) textColHex = lightenDarkenColor(textColHex, -15); // vibrant color is always too bright for white bg mode
 
     let darkColHex = lightenDarkenColor(textColHex, isLightBg ? 12 : -20);
     let darkerColHex = lightenDarkenColor(textColHex, isLightBg ? 30 : -40);
@@ -759,6 +757,7 @@ function updateColors(textColHex) {
     setRootColor("text", textColHex);
     setRootColor("button", darkerColHex);
     setRootColor("button-active", darkColHex);
+    setRootColor("selected-row", darkerColHex);
     setRootColor("tab-active", softHighlightHex);
     setRootColor("button-disabled", softHighlightHex);
     let softerHighlightHex = setLightness(textColHex, isLightBg ? 0.9 : 0.1);
@@ -899,33 +898,6 @@ function registerCoverListener() {
     });
 }
 registerCoverListener();
-
-(function Startup() {
-    if (!Spicetify.showNotification) {
-        setTimeout(Startup, 300);
-        return;
-    }
-    // Check latest release
-    fetch("https://api.github.com/repos/JulienMaille/spicetify-dynamic-theme/releases/latest")
-        .then((response) => {
-            return response.json();
-        })
-        .then((data) => {
-            if (data.tag_name > current) {
-                document.querySelector("#main-topBar-moon-button").classList.remove("main-topBar-buddyFeed");
-                document.querySelector("#main-topBar-moon-button").classList.add("main-actionButtons-button", "main-noConnection-isNotice");
-                let updateLink = document.createElement("a");
-                updateLink.setAttribute("title", `Changes: ${data.name}`);
-                updateLink.setAttribute("href", "https://github.com/JulienMaille/spicetify-dynamic-theme/releases/latest");
-                updateLink.innerHTML = `v${data.tag_name} available`;
-                document.querySelector("#main-topBar-moon-button").append(updateLink);
-            }
-        })
-        .catch((err) => {
-            // Do something for an error here
-        });
-    Spicetify.showNotification("Applied system " + (systemDark ? "dark" : "light") + " theme.");
-})();
 
 document.documentElement.style.setProperty("--warning_message", " ");
 
