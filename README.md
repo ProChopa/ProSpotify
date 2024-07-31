@@ -6,9 +6,9 @@ Theme for [Spicetify](https://github.com/spicetify/spicetify-cli) based on [Defa
 
 # Install / Update
 1. Download Release
-2. Copy content folder **Themes** to your folder **Spicetify/Themes**
-3. Add the 2 lines in **[Patch]** section of the config file (see details below)
-4. Run file **Install Theme**
+2. Copy content folder `Themes` to your folder `Spicetify/Themes`
+3. Add the 2 lines in `[Patch]` section of the config file (see details below)
+4. Run file `Install Theme`
 
 ```ini
 [Patch]
