@@ -98,7 +98,7 @@
 .main-nowPlayingView-lyricsGradient,
 .gqaWFmQeKNYnYD5gRv3x {
     grid-area: none;
-	--lyrics-color-background: unset !important;
+    --lyrics-color-background: unset !important;
     --lyrics-color-active: var(--spice-text) !important;
     --lyrics-color-inactive: rgba(255, 255, 255, 0.2) !important;
     --lyrics-color-passed: rgba(255, 255, 255, 0.5) !important;
@@ -133,7 +133,8 @@
   display: none;
 }
 button:has(path[d='M11.196 8 6 5v6l5.196-3z'],
-path[d='.966.783 1.75 1.75 1.75h10.5a1.75']) {
+path[d='.966.783 1.75 1.75 1.75h10.5a1.75']),
+.DFvRASpHOFAoziM4w7En {
 	display: none;
 }
 .hjyiWzPtKHn_5kCe9vyg {
