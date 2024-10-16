@@ -484,7 +484,6 @@ html:not(.spotify__container--is-desktop.fullscreen) body.windows:not(.video-ful
     position: absolute;
     right: 0;
     z-index: 999;
-    backdrop-filter: brightness(2.12);
     width: var(--control-width);
     height: var(--control-height);
 }
