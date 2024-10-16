@@ -585,7 +585,7 @@
   };
 })();
 
-let current = "5.0";
+let current = "5.2";
 
 function waitForElement(els, func, timeout = 100) {
     const queries = els.map((el) => document.querySelector(el));
@@ -713,6 +713,7 @@ function toggleDark(setDark) {
     setRootColor("shadow", textColorBg);
     setRootColor("card", setDark ? "#040404" : "#ECECEC");
     setRootColor("subtext", setDark ? "#EAEAEA" : "#3D3D3D");
+    setRootColor("selected-row", setDark ? "#EAEAEA" : "#3D3D3D");
     setRootColor("main-elevated", setDark ? "#303030" : "#DDDDDD");
     setRootColor("notification", setDark ? "#303030" : "#DDDDDD");
     setRootColor("highlight-elevated", setDark ? "#303030" : "#DDDDDD");
@@ -728,28 +729,36 @@ window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e)
     toggleDark(e.matches);
 });
 
-waitForElement([".main-topBar-topbarContentRight"], (queries) => {
+waitForElement([".main-actionButtons"], (queries) => {
     // Add activator on top bar
-    const div = document.createElement("div");
-    div.id = "main-topBar-moon-div";
-    queries[0].insertBefore(div, queries[0].querySelector(".main-actionButtons"));
+    const buttonContainer = queries[0];
 
     const button = document.createElement("button");
+    Array.from(buttonContainer.firstChild.attributes).forEach((attr) => {
+        button.setAttribute(attr.name, attr.value);
+    });
     button.id = "main-topBar-moon-button";
-    button.classList.add("main-topBar-buddyFeed", "Button-small-small-buttonTertiary-condensedAll-useBrowserDefaultFocusStyle");
-    button.setAttribute("title", "Light/Dark");
+    button.className = buttonContainer.firstChild.className;
     button.onclick = () => {
         toggleDark();
     };
     button.innerHTML = `<svg role="img" viewBox="0 0 16 16" height="16" width="16"><path fill="currentColor" d="M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z"></path></svg>`;
-    div.append(button);
+
+    const tooltip = Spicetify.Tippy(button, {
+        ...Spicetify.TippyProps,
+        content: "Light/Dark"
+    });
+
+    buttonContainer.insertBefore(button, buttonContainer.firstChild);
 });
 
 function updateColors(textColHex) {
     if (textColHex == undefined) return registerCoverListener();
 
     let isLightBg = isLight(textColorBg);
-    if (isLightBg) textColHex = lightenDarkenColor(textColHex, -15); // vibrant color is always too bright for white bg mode
+    if (isLightBg)
+        textColHex = lightenDarkenColor(textColHex, -15); // vibrant color is always too bright for white bg mode
+    else textColHex = setLightness(textColHex, 0.45);
 
     let darkColHex = lightenDarkenColor(textColHex, isLightBg ? 12 : -20);
     let darkerColHex = lightenDarkenColor(textColHex, isLightBg ? 30 : -40);
@@ -757,7 +766,6 @@ function updateColors(textColHex) {
     setRootColor("text", textColHex);
     setRootColor("button", darkerColHex);
     setRootColor("button-active", darkColHex);
-    setRootColor("selected-row", darkerColHex);
     setRootColor("tab-active", softHighlightHex);
     setRootColor("button-disabled", softHighlightHex);
     let softerHighlightHex = setLightness(textColHex, isLightBg ? 0.9 : 0.1);
@@ -857,7 +865,12 @@ async function songchange() {
 Spicetify.Player.addEventListener("songchange", songchange);
 
 function pickCoverColor(img) {
-    if (!img.currentSrc.startsWith("spotify:")) return;
+    if (Spicetify.Platform.PlatformData.client_version_triple >= "1.2.48") {
+        if (!img.currentSrc.startsWith("https://i.scdn.co/image")) return;
+        img.crossOrigin = "Anonymous";
+    } else {
+        if (!img.currentSrc.startsWith("spotify:")) return;
+    }
     if (img.complete) {
         textColor = "#1db954";
         try {
@@ -879,7 +892,7 @@ var coverListener;
 function registerCoverListener() {
     const img = document.querySelector(".main-image-image.cover-art-image");
     if (!img) return setTimeout(registerCoverListener, 250); // Check if image exists
-    if (!img.complete) return img.addEventListener("load", registerCoverListener); // Check if image is loaded
+    if (!img.complete) return setTimeout(registerCoverListener, 250); // Check if image is loaded
     pickCoverColor(img);
 
     if (coverListener != null) {
