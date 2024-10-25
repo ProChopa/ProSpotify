@@ -207,6 +207,11 @@ h1,
 .main-home-homeHeader {
 	display: none !important;
 }
+.main-entityHeader-container.JYKKZFIXuf9lIHVeszuS,
+.PeLrpasyfBW8ql_bmoAi,
+.PkOz5g82CaoKk1J3GX0e {
+  background: transparent !important;
+}
 
 /* CONTEXT MENU */
 div#context-menu:before,
