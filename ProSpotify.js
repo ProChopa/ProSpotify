@@ -1,10 +1,11 @@
-(function hazy() {
+(function ProSpotify() {
   if (!(Spicetify.Player.data && Spicetify.Platform)) {
-    setTimeout(hazy, 100);
+    setTimeout(ProSpotify, 100);
     return;
   }
 
-  console.log("Hazy is running");
+  console.log("ProSpotify is running");
+
   function getAlbumInfo(uri) {
     return Spicetify.CosmosAsync.get(
       `https://api.spotify.com/v1/albums/${uri}`
@@ -12,65 +13,57 @@
   }
 
   function valueSet() {
-    // Check if blurValue is NaN
-    const blurValue = parseInt(localStorage.getItem("blurAmount"));
-    const contValue = parseInt(localStorage.getItem("contAmount"));
-    const satuValue = parseInt(localStorage.getItem("satuAmount"));
-    const brightValue = parseInt(localStorage.getItem("brightAmount"));
+    const blurValue = Number.parseInt(localStorage.getItem("blurAmount"));
+    const contValue = Number.parseInt(localStorage.getItem("contAmount"));
+    const satuValue = Number.parseInt(localStorage.getItem("satuAmount"));
+    const brightValue = Number.parseInt(localStorage.getItem("brightAmount"));
 
-    if (!isNaN(blurValue)) {
+    if (!Number.isNaN(blurValue)) {
       document.documentElement.style.setProperty("--blur", `${blurValue}px`);
     } else {
-      document.documentElement.style.setProperty("--blur", `15px`);
+      document.documentElement.style.setProperty("--blur", "15px");
     }
 
-    if (!isNaN(contValue)) {
+    if (!Number.isNaN(contValue)) {
       document.documentElement.style.setProperty("--cont", `${contValue}%`);
     } else {
-      document.documentElement.style.setProperty("--cont", `50%`);
+      document.documentElement.style.setProperty("--cont", "50%");
     }
 
-    if (!isNaN(satuValue)) {
+    if (!Number.isNaN(satuValue)) {
       document.documentElement.style.setProperty("--satu", `${satuValue}%`);
     } else {
-      document.documentElement.style.setProperty("--satu", `70%`);
+      document.documentElement.style.setProperty("--satu", "70%");
     }
 
-    if (!isNaN(brightValue)) {
+    if (!Number.isNaN(brightValue)) {
       document.documentElement.style.setProperty("--bright", `${brightValue}%`);
     } else {
-      document.documentElement.style.setProperty("--bright", `120%`);
+      document.documentElement.style.setProperty("--bright", "120%");
     }
   }
 
   valueSet();
 
   async function fetchFadeTime() {
-    /* It seems that ._prefs isnt available anymore. Therefore the crossfade is being disabled for now.
-    const response = await Spicetify.Platform.PlayerAPI._prefs.get({ key: "audio.crossfade_v2" });
-    const crossfadeEnabled = response.entries["audio.crossfade_v2"].bool;
-    */
     const crossfadeEnabled = false;
 
-    let FadeTime = "0.4s"; // Default value of 0.4 seconds, otherwise syncs with crossfade time
+    let FadeTime = "0.4s";
 
     if (crossfadeEnabled) {
-      /*const fadeTimeResponse = await Spicetify.Platform.PlayerAPI._prefs.get({ key: "audio.crossfade.time_v2" });
-      const fadeTime = fadeTimeResponse.entries["audio.crossfade.time_v2"].number;*/
       const fadeTime = FadeTime;
       const dividedTime = fadeTime / 1000;
-      FadeTime = dividedTime + "s";
+      FadeTime = `${dividedTime}s`;
     }
 
     document.documentElement.style.setProperty("--fade-time", FadeTime);
     console.log(FadeTime);
-    // Use the CSS variable "--fade-time" for transition time
   }
 
   async function onSongChange() {
-    fetchFadeTime(); // Call fetchFadeTime after songchange
+    fetchFadeTime();
 
-    let album_uri = Spicetify.Player.data.item.metadata.album_uri;
+    const album_uri = Spicetify.Player.data.item.metadata.album_uri;
     let bgImage = Spicetify.Player.data.item.metadata.image_url;
 
     if (album_uri !== undefined && !album_uri.includes("spotify:show")) {
@@ -78,18 +71,128 @@
         album_uri.replace("spotify:album:", "")
       );
     } else if (Spicetify.Player.data.item.uri.includes("spotify:episode")) {
-      // podcast
       bgImage = bgImage.replace("spotify:image:", "https://i.scdn.co/image/");
-    } else if (Spicetify.Player.data.item.provider == "ad") {
-      // ad
+    } else if (Spicetify.Player.data.item.provider === "ad") {
       return;
     } else {
-      // When clicking a song from the homepage, songChange is fired with half empty metadata
       setTimeout(onSongChange, 200);
     }
 
     loopOptions("/");
     updateLyricsPageProperties();
+
+    if (!config.useCustomColor) {
+      let imageUrl;
+      if (!config.useCurrSongAsHome) {
+        imageUrl = Spicetify.Player.data.item.metadata.image_url.replace("spotify:image:", "https://i.scdn.co/image/");
+      } else {
+        const defImage = "https://i.imgur.com/Wl2D0h0.png";
+        imageUrl = localStorage.getItem("hazy:startupBg") || defImage;
+      }
+
+      changeAccentColors(imageUrl);
+    } else {
+      let color = localStorage.getItem("CustomColor") || "#FFC0EA";
+      document.querySelector(':root').style.setProperty('--spice-button', color);
+      document.querySelector(':root').style.setProperty('--spice-button-active', color);
+      document.querySelector(':root').style.setProperty('--spice-accent', color);
+    }
+  }
+
+  function changeAccentColors(imageUrl) {
+    getMostProminentColor(imageUrl, function (color) {
+      document.querySelector(':root').style.setProperty('--spice-button', color);
+      document.querySelector(':root').style.setProperty('--spice-button-active', color);
+      document.querySelector(':root').style.setProperty('--spice-accent', color);
+    });
+  }
+
+  function getMostProminentColor(imageUrl, callback) {
+    const img = new Image();
+    img.crossOrigin = "Anonymous";
+
+    img.onload = function () {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      ctx.drawImage(img, 0, 0);
+
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+      let rgbList = buildRgb(imageData);
+
+      let hexColor = findColor(rgbList);
+
+      if (!hexColor) {
+        hexColor = findColor(rgbList, true);
+      }
+
+      callback(hexColor);
+    };
+
+    img.onerror = function () {
+      console.error("Image load error");
+      callback(null);
+    };
+
+    img.src = imageUrl;
+  }
+
+  function findColor(rgbList, skipFilters = false) {
+    const colorCount = {};
+    let maxColor = '';
+    let maxCount = 0;
+
+    for (let i = 0; i < rgbList.length; i++) {
+      if (!skipFilters && (isTooDark(rgbList[i]) || isTooCloseToWhite(rgbList[i]))) {
+        continue;
+      }
+
+      const color = `${rgbList[i].r},${rgbList[i].g},${rgbList[i].b}`;
+      colorCount[color] = (colorCount[color] || 0) + 1;
+
+      if (colorCount[color] > maxCount) {
+        maxColor = color;
+        maxCount = colorCount[color];
+      }
+    }
+
+    if (maxColor) {
+      const [r, g, b] = maxColor.split(',').map(Number);
+      return rgbToHex(r, g, b);
+    } else {
+      return null;
+    }
+  }
+
+  const buildRgb = (imageData) => {
+    const rgbValues = [];
+    for (let i = 0; i < imageData.length; i += 4) {
+      const rgb = {
+        r: imageData[i],
+        g: imageData[i + 1],
+        b: imageData[i + 2],
+      };
+
+      rgbValues.push(rgb);
+    }
+
+    return rgbValues;
+  };
+
+  function rgbToHex(r, g, b) {
+    return "#" + [r, g, b].map(x => x.toString(16).padStart(2, '0')).join('');
+  }
+
+  function isTooDark(rgb) {
+    const brightness = 0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b;
+    const threshold = 100;
+    return brightness < threshold;
+  }
+
+  function isTooCloseToWhite(rgb) {
+    const threshold = 200;
+    return rgb.r > threshold && rgb.g > threshold && rgb.b > threshold;
   }
 
   Spicetify.Player.addEventListener("songchange", onSongChange);
@@ -108,16 +211,12 @@
       scrollToTop();
     }
   });
-
   (function sidebar() {
-    // Sidebar settings
     const item = localStorage.getItem("spicetify-exp-features");
     const parsedObject = JSON.parse(item);
 
-    // Variable if client needs to reload
     let reload = false;
 
-    // Array of features
     const features = [
       "enableYLXSidebar",
       "enableRightSidebar",
@@ -130,10 +229,7 @@
     if (!localStorage.getItem("Hazy Sidebar Activated")) {
       localStorage.setItem("Hazy Sidebar Activated", true);
       for (const feature of features) {
-        // Ignore if feature not present
         if (!parsedObject[feature]) continue;
-
-        // Change value if disabled
         if (!parsedObject[feature].value) {
           parsedObject[feature].value = true;
           reload = true;
@@ -159,12 +255,9 @@
         document.body.classList.add("windows");
       }
     }
-
-    // Call detectOS() immediately
     detectOS();
   }
 
-  /* Transparent Controls */
   function addTransparentControls(height, width) {
     document.documentElement.style.setProperty(
       "--control-height",
@@ -179,84 +272,39 @@
       height: height,
     });
   }
+  function updateZoomVariable() {
+    let prevOuterWidth = window.outerWidth;
+    let prevInnerWidth = window.innerWidth;
+    let prevRatio = window.devicePixelRatio;
 
-  function calculateBrowserZoom() {
-    const viewportWidth = window.innerWidth;
-    const windowWidth = window.outerWidth;
-    const zoomLevel = (windowWidth / viewportWidth) * 100;
-    return zoomLevel;
-  }
+    function calculateAndApplyZoom() {
+      const newOuterWidth = window.outerWidth;
+      const newInnerWidth = window.innerWidth;
+      const newRatio = window.devicePixelRatio;
 
-  function calculateInverseBrowserZoom() {
-    const viewportWidth = window.innerWidth;
-    const windowWidth = window.outerWidth;
-    const inverseZoomLevel = viewportWidth / windowWidth;
-    return inverseZoomLevel;
-  }
+      if (
+        prevOuterWidth <= 160 ||
+        prevRatio !== newRatio ||
+        prevOuterWidth !== newOuterWidth ||
+        prevInnerWidth !== newInnerWidth
+      ) {
+        const zoomFactor = newOuterWidth / newInnerWidth || 1;
+        document.documentElement.style.setProperty("--zoom", zoomFactor);
+        console.debug(
+          `Zoom Updated: ${newOuterWidth} / ${newInnerWidth} = ${zoomFactor}`
+        );
 
-  function calculateScaledPx(
-    baseWidth,
-    inverseZoom,
-    scalingFactorOut = 1,
-    minWidth = 0,
-    maxWidth = Infinity
-  ) {
-    const scaledWidth = baseWidth * (inverseZoom + scalingFactorOut - 1);
-    return Math.max(minWidth, Math.min(scaledWidth, maxWidth));
-  }
-
-  /* Topbar styles */
-  const topBarStyleSheet = document.createElement("style");
-  async function setTopBarStyles() {
-    const isGlobalNav =
-      document.querySelector(".global-nav") ||
-      document.querySelector(".Root__globalNav");
-
-    const baseHeight = isGlobalNav ? 32 : 21;
-    const baseWidth = 135;
-    const constant = 0.912872807;
-
-    const normalZoom = calculateBrowserZoom();
-    const inverseZoom = calculateInverseBrowserZoom();
-
-    const finalControlHeight = Math.round(
-      (normalZoom ** constant * 100) / 100 - (isGlobalNav ? 3 : 25)
-    );
-
-    console.log(finalControlHeight);
-
-    await setMainWindowControlHeight(finalControlHeight);
-
-    const paddingStart = calculateScaledPx(64, inverseZoom, 1);
-    const paddingEnd = calculateScaledPx(baseWidth, inverseZoom, 1);
-
-    console.log(normalZoom, inverseZoom);
-
-    if (isGlobalNav) {
-      topBarStyleSheet.innerText = `
-.spotify__container--is-desktop.spotify__os--is-windows .Root__globalNav {
-  padding-inline-end: ${paddingEnd}px !important;
-  padding-inline-start: ${paddingStart}px !important;
-}
-`;
+        prevOuterWidth = newOuterWidth;
+        prevInnerWidth = newInnerWidth;
+        prevRatio = newRatio;
+      }
     }
-    if (Spicetify.Platform.PlatformData.os_name === "windows" || "Windows") {
-      const transparentControlHeight = baseHeight;
-      const transparentControlWidth = calculateScaledPx(
-        baseWidth,
-        inverseZoom,
-        1
-      );
-      addTransparentControls(transparentControlHeight, transparentControlWidth);
-    }
+
+    calculateAndApplyZoom();
+    window.addEventListener("resize", calculateAndApplyZoom);
   }
 
-  window.addEventListener("resize", function () {
-    setTopBarStyles();
-  });
-  setTopBarStyles();
-
-  document.head.appendChild(topBarStyleSheet);
+  updateZoomVariable();
 
   function waitForElement(elements, func, timeout = 100) {
     const queries = elements.map((element) => document.querySelector(element));
@@ -266,6 +314,22 @@
       setTimeout(waitForElement, 300, elements, func, timeout - 1);
     }
   }
+
+  function getAndApplyNav(element) {
+    const isCenteredGlobalNav = Spicetify.Platform.version >= "1.2.46.462";
+
+    document.body.classList.add(
+      `${
+        element?.[0]?.classList.contains("Root__globalNav")
+          ? isCenteredGlobalNav
+            ? "global-nav-centered"
+            : "global-nav"
+          : "control-nav"
+      }`
+    );
+  }
+
+  waitForElement([".Root__globalNav"], getAndApplyNav, 10000);
 
   Spicetify.Platform.History.listen(updateLyricsPageProperties);
 
@@ -287,11 +351,9 @@
     mainViewContainerResizeObserver.observe(mainViewContainer);
   });
 
-  // fixes container shifting & active line clipping | taken from Bloom: https://github.com/nimsandu/spicetify-bloom
   function updateLyricsPageProperties() {
     function setLyricsPageProperties() {
       function detectTextDirection() {
-        // 0, 1 - blank lines
         const lyric = document.querySelectorAll(
           ".lyrics-lyricsContent-lyric"
         )[2];
@@ -315,7 +377,7 @@
 
       function calculateLyricsMaxWidth(lyricsContentWrapper) {
         const lyricsContentContainer = lyricsContentWrapper.parentElement;
-        const marginLeft = parseInt(
+        const marginLeft = Number.parseInt(
           window.getComputedStyle(lyricsContentWrapper).marginLeft,
           10
         );
@@ -350,13 +412,13 @@
     }
 
     function lyricsCallback(mutationsList, lyricsObserver) {
-      mutationsList.forEach((mutation) => {
-        mutation.addedNodes?.forEach((addedNode) => {
+      for (const mutation of mutationsList) {
+        for (addedNode of mutation.addedNodes) {
           if (addedNode.classList?.contains("lyrics-lyricsContent-provider")) {
             setLyricsPageProperties();
           }
-        });
-      });
+        }
+      }
       lyricsObserver.disconnect;
     }
 
@@ -373,13 +435,10 @@
   }
 
   function galaxyFade() {
-    //Borrowed from the Galaxy theme | https://github.com/harbassan/spicetify-galaxy/
-    // add fade and dimness effects to mainview and the the artist image on scroll
     waitForElement(
       [".Root__main-view [data-overlayscrollbars-viewport]"],
       ([scrollNode]) => {
         scrollNode.addEventListener("scroll", () => {
-          //artist fade
           const scrollValue = scrollNode.scrollTop;
           const artist_fade = Math.max(0, (-0.3 * scrollValue + 100) / 100);
           document.documentElement.style.setProperty(
@@ -398,13 +457,12 @@
               : "full";
           scrollNode.setAttribute("fade", fadeDirection);
 
-          // fade
-          if (scrollNode.scrollTop == 0) {
+          if (scrollNode.scrollTop === 0) {
             scrollNode.setAttribute("fade", "bottom");
           } else if (
             scrollNode.scrollHeight -
               scrollNode.scrollTop -
-              scrollNode.clientHeight ==
+              scrollNode.clientHeight ===
             0
           ) {
             scrollNode.setAttribute("fade", "top");
@@ -420,13 +478,12 @@
       ([scrollNode]) => {
         scrollNode.setAttribute("fade", "bottom");
         scrollNode.addEventListener("scroll", () => {
-          // fade
-          if (scrollNode.scrollTop == 0) {
+          if (scrollNode.scrollTop === 0) {
             scrollNode.setAttribute("fade", "bottom");
           } else if (
             scrollNode.scrollHeight -
               scrollNode.scrollTop -
-              scrollNode.clientHeight ==
+              scrollNode.clientHeight ===
             0
           ) {
             scrollNode.setAttribute("fade", "top");
@@ -439,13 +496,6 @@
   }
 
   const config = {};
-
-  function parseOptions() {
-    config.useCurrSongAsHome = JSON.parse(
-      localStorage.getItem("UseCustomBackground")
-    );
-  }
-
   parseOptions();
 
   function loopOptions(page) {
@@ -456,7 +506,7 @@
           `url("${startImage}")`
         );
       } else {
-        let bgImage = Spicetify.Player.data.item.metadata.image_url;
+        const bgImage = Spicetify.Player.data.item.metadata.image_url;
         document.documentElement.style.setProperty(
           "--image_url",
           `url("${bgImage}")`
@@ -464,125 +514,7 @@
       }
     }
   }
-
-  const defImage = `https://i.imgur.com/Wl2D0h0.png`;
-  let startImage = localStorage.getItem("hazy:startupBg") || defImage;
-
-  // input for custom background images
-  const bannerInput = document.createElement("input");
-  bannerInput.type = "file";
-  bannerInput.className = "banner-input";
-  bannerInput.accept = [
-    "image/jpeg",
-    "image/apng",
-    "image/avif",
-    "image/gif",
-    "image/png",
-    "image/svg+xml",
-    "image/webp",
-  ].join(",");
-
-  // listen for edit playlist popup
-  const editObserver = new MutationObserver((mutation_list) => {
-    for (let mutation of mutation_list) {
-      if (mutation.addedNodes.length) {
-        const popupContent = mutation.addedNodes[0].querySelector(
-          ".main-trackCreditsModal-container"
-        );
-        if (!popupContent) continue;
-
-        const coverSelect = popupContent.querySelector(
-          ".main-playlistEditDetailsModal-albumCover"
-        );
-        const bannerSelect = coverSelect.cloneNode(true);
-        bannerSelect.id = "banner-select";
-
-        const [, , uid] =
-          Spicetify.Platform.History.location.pathname.split("/");
-
-        const srcInput = document.createElement("input");
-        srcInput.type = "text";
-        srcInput.classList.add(
-          "main-playlistEditDetailsModal-textElement",
-          "main-playlistEditDetailsModal-titleInput"
-        );
-        srcInput.id = "src-input";
-        srcInput.placeholder = "Background image URL (recommended)";
-
-        const optButton = bannerSelect.querySelector(
-          ".main-playlistEditDetailsModal-imageDropDownButton"
-        );
-        optButton.querySelector("svg").children[0].remove();
-        optButton
-          .querySelector("svg")
-          .append(
-            document
-              .querySelector(".main-playlistEditDetailsModal-closeBtn path")
-              .cloneNode()
-          );
-
-        optButton.onclick = () => {
-          localStorage.removeItem("hazy:playlistBg:" + uid);
-          bannerSelect.querySelector("img").src =
-            coverSelect.querySelector("img").src;
-        };
-
-        popupContent.append(bannerSelect);
-        popupContent.append(bannerInput);
-        popupContent.append(srcInput);
-
-        const editButton = bannerSelect.querySelector(
-          ".main-editImageButton-image.main-editImageButton-overlay"
-        );
-        editButton.onclick = () => {
-          bannerInput.click();
-        };
-
-        const save = popupContent.querySelector(
-          ".main-playlistEditDetailsModal-save button"
-        );
-        save.addEventListener("click", () => {
-          if (srcInput.value) {
-            localStorage.setItem("hazy:playlistBg:" + uid, srcInput.value);
-          }
-        });
-      }
-    }
-  });
-
-  editObserver.observe(document.body, { childList: true });
-
-  // when user selects a custom background image
-  bannerInput.onchange = () => {
-    if (!bannerInput.files.length) return;
-
-    const file = bannerInput.files[0];
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const result = event.target.result;
-      const [, , uid] = Spicetify.Platform.History.location.pathname.split("/");
-      if (!uid) {
-        try {
-          localStorage.setItem("hazy:startupBg", result);
-        } catch {
-          Spicetify.showNotification("File too large");
-          return;
-        }
-        document.querySelector("#home-select img").src = result;
-      } else {
-        try {
-          localStorage.setItem("hazy:playlistBg:" + uid, result);
-        } catch {
-          Spicetify.showNotification("File too large");
-          return;
-        }
-
-        document.querySelector("#banner-select img").src = result;
-        document.querySelector("#banner-select img").removeAttribute("srcset");
-      }
-    };
-    reader.readAsDataURL(file);
-  };
+  loopOptions("/");
 })();
 
 let current = "5.2";
