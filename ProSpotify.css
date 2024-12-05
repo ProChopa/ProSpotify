@@ -305,10 +305,11 @@ select, option {
 .os-viewport button:not(.main-playButton-primary):not(:hover) {
     color: var(--spice-subtext) !important;
 }
-
-/* ALBUM YEAR INFO */
+/* album year info */
 .main-trackInfo-release {
     font-size: 0.6875rem;
+    grid-row: 4;
+    grid-column: 1 / 3;
 }
 
 /* FIX PLAYER BAR BUTTONS */
@@ -484,13 +485,26 @@ html {
 }
 
 /* TRANSPARENT WINDOW CONTROLS */
+.Root__top-container {
+  padding-top: max(var(--topbar-height, 68px) / var(--zoom, 1), 8px);
+}
 html:not(.spotify__container--is-desktop.fullscreen) body.windows:not(.video-full-window)::after {
-    content: '';
-    position: absolute;
-    right: 0;
-    z-index: 999;
-    width: var(--control-width);
-    height: var(--control-height);
+  content: "";
+  position: absolute;
+  right: 0;
+  z-index: 999;
+  -webkit-backdrop-filter: brightness(2.12);
+  backdrop-filter: brightness(2.12);
+  width: calc(135px / var(--zoom, 1));
+  height: calc(var(--topbar-height, 40px) / var(--zoom, 1));
+}
+html:not(.spotify__container--is-desktop.fullscreen) body.global-nav.windows:not(.video-full-window)::after {
+  --topbar-height: 64px;
+}
+html:not(.spotify__container--is-desktop.fullscreen) body.global-nav-centered.windows:not(.video-full-window)::after {
+  height: min(32px / var(--zoom, 1),
+      var(--topbar-height, 64px) / var(--zoom, 1));
+  top: calc((var(--topbar-height, 64px) / var(--zoom, 1) - min(32px / var(--zoom, 1), var(--topbar-height, 64px))) / 2);
 }
 
 /* SCROLLBAR */
