@@ -517,7 +517,7 @@
   loopOptions("/");
 })();
 
-let current = "5.2";
+let current = "5.5";
 
 function waitForElement(els, func, timeout = 100) {
     const queries = els.map((el) => document.querySelector(el));
@@ -623,7 +623,7 @@ function setLightness(hex, lightness) {
     return rgbToHex(hslToRgb(hsl));
 }
 
-let textColor = getComputedStyle(document.documentElement).getPropertyValue("--spice-text");
+let textColor = "#1db954";
 let textColorBg = getComputedStyle(document.documentElement).getPropertyValue("--spice-main");
 
 function setRootColor(name, colHex) {
@@ -645,6 +645,7 @@ function toggleDark(setDark) {
     setRootColor("shadow", textColorBg);
     setRootColor("card", setDark ? "#040404" : "#ECECEC");
     setRootColor("subtext", setDark ? "#EAEAEA" : "#3D3D3D");
+    setRootColor("selected-row", setDark ? "#EAEAEA" : "#3D3D3D");
     setRootColor("main-elevated", setDark ? "#303030" : "#DDDDDD");
     setRootColor("notification", setDark ? "#303030" : "#DDDDDD");
     setRootColor("highlight-elevated", setDark ? "#303030" : "#DDDDDD");
@@ -733,7 +734,7 @@ async function songchange() {
     let album_uri = Spicetify.Player.data.item.metadata.album_uri;
     let bgImage = Spicetify.Player.data.item.metadata.image_url;
     if (!bgImage) {
-        bgImage = "/images/tracklist-row-song-fallback.svg";
+        bgImage = "https://cdn.jsdelivr.net/gh/JulienMaille/spicetify-dynamic-theme@main/images/tracklist-row-song-fallback.svg";
         textColor = "#1db954";
         updateColors(textColor);
     }
@@ -791,58 +792,89 @@ async function songchange() {
         nearArtistSpan.innerHTML = nearArtistSpanText;
     }
     document.documentElement.style.setProperty("--image_url", `url("${bgImage}")`);
-    registerCoverListener();
+    pickCoverColor();
 }
 
-Spicetify.Player.addEventListener("songchange", songchange);
+function getVibrant(image) {
+    try {
+        var swatches = new Vibrant(image, 12).swatches();
+        cols = isLight(textColorBg) ? ["Vibrant", "DarkVibrant", "Muted", "LightVibrant"] : ["Vibrant", "LightVibrant", "Muted", "DarkVibrant"];
+        for (var col in cols)
+            if (swatches[cols[col]]) {
+                textColor = swatches[cols[col]].getHex();
+                break;
+            }
+    } catch (err) {
+        console.error(err);
+    }
+}
 
-function pickCoverColor(img) {
-    if (Spicetify.Platform.PlatformData.client_version_triple >= "1.2.48") {
-        if (!img.currentSrc.startsWith("https://i.scdn.co/image")) return;
-        img.crossOrigin = "Anonymous";
+function pickCoverColor() {
+    const img = document.querySelector(".main-image-image.cover-art-image");
+    if (!img) return setTimeout(pickCoverColor, 250); // Check if image exists
+
+    // Force src for local files, otherwise we will pick color from previous cover
+    if (Spicetify.Player.data.item.isLocal) img.src = Spicetify.Player.data.item.metadata.image_url;
+
+    if (!img.complete) return setTimeout(pickCoverColor, 250); // Check if image is loaded
+
+    textColor = "#1db954";
+    if (Spicetify.Platform.PlatformData.client_version_triple >= "1.2.48" && img.src.startsWith("https://i.scdn.co/image")) {
+        var imgCORS = new Image();
+        imgCORS.crossOrigin = "anonymous"; // Enable CORS
+        imgCORS.src = Spicetify.Player.data.item.metadata.image_url.replace("spotify:image:", "https://i.scdn.co/image/");
+
+        imgCORS.onload = function () {
+            var canvas = document.createElement("canvas");
+            var ctx = canvas.getContext("2d");
+            ctx.drawImage(imgCORS, 0, 0);
+
+            getVibrant(imgCORS);
+            imgCORS = null;
+            updateColors(textColor);
+        };
+        return;
     } else {
-        if (!img.currentSrc.startsWith("spotify:")) return;
+        if (!img.src.startsWith("spotify:")) return;
     }
-    if (img.complete) {
-        textColor = "#1db954";
-        try {
-            var swatches = new Vibrant(img, 12).swatches();
-            cols = isLight(textColorBg) ? ["Vibrant", "DarkVibrant", "Muted", "LightVibrant"] : ["Vibrant", "LightVibrant", "Muted", "DarkVibrant"];
-            for (var col in cols)
-                if (swatches[cols[col]]) {
-                    textColor = swatches[cols[col]].getHex();
-                    break;
-                }
-        } catch (err) {
-            console.error(err);
-        }
-    }
+
+    if (img.complete) getVibrant(img);
     updateColors(textColor);
 }
 
-var coverListener;
-function registerCoverListener() {
-    const img = document.querySelector(".main-image-image.cover-art-image");
-    if (!img) return setTimeout(registerCoverListener, 250); // Check if image exists
-    if (!img.complete) return setTimeout(registerCoverListener, 250); // Check if image is loaded
-    pickCoverColor(img);
+Spicetify.Player.addEventListener("songchange", songchange);
+songchange();
 
-    if (coverListener != null) {
-        coverListener.disconnect();
-        coverListener = null;
+(function Startup() {
+    if (!Spicetify.showNotification) {
+        setTimeout(Startup, 300);
+        return;
     }
-
-    coverListener = new MutationObserver((muts) => {
-        const img = document.querySelector(".main-image-image.cover-art-image");
-        if (!img) return registerCoverListener();
-        pickCoverColor(img);
-    });
-    coverListener.observe(img, {
-        attributes: true,
-        attributeFilter: ["src"]
-    });
-}
-registerCoverListener();
+    // Check latest release
+    fetch("https://api.github.com/repos/JulienMaille/spicetify-dynamic-theme/releases/latest")
+        .then((response) => {
+            return response.json();
+        })
+        .then((data) => {
+            if (data.tag_name > current) {
+                const button = document.querySelector("#main-topBar-moon-button");
+                button.classList.remove("main-topBar-buddyFeed");
+                button.classList.add("main-actionButtons-button", "main-noConnection-isNotice");
+                let updateLink = document.createElement("a");
+                updateLink.setAttribute("href", "https://github.com/JulienMaille/spicetify-dynamic-theme/releases/latest");
+                updateLink.innerHTML = `v${data.tag_name} available`;
+                button.append(updateLink);
+                button._tippy.setProps({
+                    allowHTML: true,
+                    content: `Changes: ${data.name}`
+                });
+            }
+        })
+        .catch((err) => {
+            // Do something for an error here
+        });
+    Spicetify.showNotification("Applied system " + (systemDark ? "dark" : "light") + " theme.");
+})();
 
 document.documentElement.style.setProperty("--warning_message", " ");
 
