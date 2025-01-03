@@ -845,37 +845,6 @@ function pickCoverColor() {
 Spicetify.Player.addEventListener("songchange", songchange);
 songchange();
 
-(function Startup() {
-    if (!Spicetify.showNotification) {
-        setTimeout(Startup, 300);
-        return;
-    }
-    // Check latest release
-    fetch("https://api.github.com/repos/JulienMaille/spicetify-dynamic-theme/releases/latest")
-        .then((response) => {
-            return response.json();
-        })
-        .then((data) => {
-            if (data.tag_name > current) {
-                const button = document.querySelector("#main-topBar-moon-button");
-                button.classList.remove("main-topBar-buddyFeed");
-                button.classList.add("main-actionButtons-button", "main-noConnection-isNotice");
-                let updateLink = document.createElement("a");
-                updateLink.setAttribute("href", "https://github.com/JulienMaille/spicetify-dynamic-theme/releases/latest");
-                updateLink.innerHTML = `v${data.tag_name} available`;
-                button.append(updateLink);
-                button._tippy.setProps({
-                    allowHTML: true,
-                    content: `Changes: ${data.name}`
-                });
-            }
-        })
-        .catch((err) => {
-            // Do something for an error here
-        });
-    Spicetify.showNotification("Applied system " + (systemDark ? "dark" : "light") + " theme.");
-})();
-
 document.documentElement.style.setProperty("--warning_message", " ");
 
 (function e$$0(x, z, l) {
