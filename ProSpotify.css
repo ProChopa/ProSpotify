@@ -34,7 +34,8 @@
 }
 
 /* LEFT SIDEBAR */
-.Root__nav-bar  {
+.Root__nav-bar,
+.main-yourLibraryX-libraryContainer{
      background-color: transparent
  } 
  .main-yourLibraryX-entryPoints,
@@ -90,7 +91,8 @@
 }
 
 /* RIGHT SIDEBAR + LYRICS */
-.main-nowPlayingView-section {
+.main-nowPlayingView-section,
+.ffFwfKcPDbmAPLXzxzKq {
 	background-color: transparent;
 	padding: 0px;
 	max-height: 327px;
