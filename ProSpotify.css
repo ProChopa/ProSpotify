@@ -91,18 +91,23 @@
 }
 
 /* RIGHT SIDEBAR + LYRICS */
-.main-nowPlayingView-section,
-.ffFwfKcPDbmAPLXzxzKq {
+.main-nowPlayingView-section {
 	background-color: transparent;
 	padding: 0px;
 	max-height: 327px;
+}
+.ffFwfKcPDbmAPLXzxzKq,
+.ffFwfKcPDbmAPLXzxzKq:before {
+	background-color: transparent;
 }
 .main-nowPlayingView-aboutArtist,
 .main-nowPlayingView-aboutArtistV2,
 .main-nowPlayingView-queue,
 .main-nowPlayingView-credits,
 .main-nowPlayingView-merch,
-.main-nowPlayingView-artistOnTour {
+.main-nowPlayingView-artistOnTour,
+.main-nowPlayingView-section,
+.QR9JmVmX9LYwo62NRtew * {
     display: none;
 }
 .main-lyricsCinema-container,
